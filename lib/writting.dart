@@ -492,10 +492,12 @@ class _WritingPageState extends State<WritingPage> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: TextField(
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
                           onChanged: (text) {},
                           decoration: InputDecoration(
-                            hintText: '제목을 입력해주세요.',
+                            hintText: '내용을 입력해주세요.',
+
                             hintStyle: TextStyle(
                               fontSize: 13,
                             ),
@@ -517,16 +519,6 @@ class _WritingPageState extends State<WritingPage> {
                                 color: Color(0xFFcccccc),
                               ),
                               borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              keyboardType: TextInputType.text,
-                              onChanged: (text) {},
-                              decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                  fontSize: 13,
-                                ),
-                                border: InputBorder.none,
-                              ),
                             ),
                           ),
                           SizedBox(width: 10),
