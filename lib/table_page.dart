@@ -72,6 +72,9 @@ class _TablePageState extends State<TablePage> {
                   onChanged: (text) {},
                   decoration: InputDecoration(
                       border: InputBorder.none,
+                      contentPadding: EdgeInsets.only(
+                        bottom: 8,  // HERE THE IMPORTANT PART
+                      ),
                       icon: Padding(
                           padding: EdgeInsets.only(left: 13),
                           child: Icon(Icons.search))),
@@ -380,6 +383,7 @@ class _TablePageState extends State<TablePage> {
                                                       fontSize: 13,
                                                     ),
                                                     border: InputBorder.none,
+
                                                   ),
                                                 ),
                                               ),

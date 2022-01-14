@@ -61,6 +61,7 @@ class _MainPageState extends State<MainPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
+                alignment : Alignment.center,
                 margin: EdgeInsets.only(left: 15, right: 15),
                 width: 350,
                 height: 43,
@@ -70,13 +71,18 @@ class _MainPageState extends State<MainPage> {
                     width: 1.0,
                     color: Color(0xFFcccccc),
                   ),
+
                   borderRadius: BorderRadius.circular(5),
                 ),
+
                 child: TextField(
                   keyboardType: TextInputType.text,
                   onChanged: (text) {},
                   decoration: InputDecoration(
                       border: InputBorder.none,
+                      contentPadding: EdgeInsets.only(
+                        bottom: 8,  // HERE THE IMPORTANT PART
+                      ),
                       icon: Padding(
                           padding: EdgeInsets.only(left: 13),
                           child: Icon(Icons.search))),

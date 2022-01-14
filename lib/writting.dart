@@ -71,6 +71,9 @@ class _WritingPageState extends State<WritingPage> {
                   onChanged: (text) {},
                   decoration: InputDecoration(
                       border: InputBorder.none,
+                      contentPadding: EdgeInsets.only(
+                        bottom: 8,  // HERE THE IMPORTANT PART
+                      ),
                       icon: Padding(
                           padding: EdgeInsets.only(left: 13),
                           child: Icon(Icons.search))),
@@ -303,6 +306,9 @@ class _WritingPageState extends State<WritingPage> {
                               fontSize: 13,
                             ),
                             border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(
+                              bottom: 8,  // HERE THE IMPORTANT PART
+                            ),
                           ),
                         ),
                       ),

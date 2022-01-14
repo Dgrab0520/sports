@@ -68,6 +68,9 @@ class _SubPageState extends State<SubPage> {
                   onChanged: (text) {},
                   decoration: InputDecoration(
                       border: InputBorder.none,
+                      contentPadding: EdgeInsets.only(
+                        bottom: 8,  // HERE THE IMPORTANT PART
+                      ),
                       icon: Padding(
                           padding: EdgeInsets.only(left: 13),
                           child: Icon(Icons.search))),
