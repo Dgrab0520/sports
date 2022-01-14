@@ -119,7 +119,7 @@ class _TablePageState extends State<TablePage> {
                 hint: Row(
                   children: [
                     Text(
-                      '메뉴',
+                      '구독정보',
                       style: TextStyle(fontSize: 14),
                     ),
                   ],

@@ -118,7 +118,7 @@ class _WritingPageState extends State<WritingPage> {
                 hint: Row(
                   children: [
                     Text(
-                      '메뉴',
+                      '글쓰기',
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
