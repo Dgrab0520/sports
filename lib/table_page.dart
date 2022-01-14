@@ -1,531 +1,29 @@
-import 'dart:convert';
-import 'dart:js';
 import "dart:ui";
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:horizontal_data_table/horizontal_data_table.dart';
-import 'package:sports/sub_page.dart';
+// import 'package:get/get_table.dart';
 import 'package:sports/writting.dart';
 
 import 'main_page.dart';
 
-
-List<Widget> slide = [
-  Container(
-    width:Get.width,
-    padding: EdgeInsets.only(left:300,right:300,top:200,),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width:Get.width,
-          child: Row(
-            children: [
-              Text('내 구독정보',
-                style:TextStyle(
-                  fontSize:20,
-                  fontFamily: 'NanumSquareB',
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height:30),
-        Container(
-          padding: EdgeInsets.only(left:17.0,right:17),
-          width:Get.width,
-          height:40,
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide( // POINT
-                color: Color(0xFFCCCCCC),
-                width: 2.0,
-              ),
-              bottom: BorderSide( // POINT
-                color: Color(0xFFCCCCCC),
-                width: 1.0,
-              ),
-            ),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                flex:4,
-                  child: Text('합계'),
-              ),
-              Expanded(
-                flex:3,
-                child: Center(child: Text('내역')),
-              ),
-              Expanded(
-                flex:2,
-                child: Center(child: Text('날짜')),
-              ),
-              Expanded(
-                flex:1,
-                child: Center(child: Text('영수증')),
-              ),
-            ],
-          ),
-        ),
-
-        InkWell(
-          onTap:(){
-          Get.dialog(   AlertDialog(
-            shape:RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(32),
-                )
-            ),
-            backgroundColor: Colors.white,
-            content:Container(
-              height:350,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                          onTap:(){
-                          },
-                          child: Container()
-                      ),
-                      InkWell(
-                          onTap:(){
-                            Get.back();
-                          },
-                          child: Container(child: Icon(Icons.close))),
-                    ],
-                  ),
-                  InkWell(
-                    onTap:(){
-                    },
-                    child: Container(
-                      width: 200,
-                      height:40,
-                      decoration:BoxDecoration(
-                        color:Color(0xFF025595),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Center(
-                        child: Text('Stringing Service Price',
-                          style: TextStyle(
-                            fontSize:15,
-                            color:Colors.white,
-                            fontFamily:'NanumSquareB',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height:20),
-                  InkWell(
-                    onTap:(){
-                    },
-                    child: Container(
-                      padding: EdgeInsets.only(left:10,right:10),
-                      width: 290,
-                      height:40,
-                      decoration:BoxDecoration(
-                        color:Color(0xFF025595),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Center(
-                        child: Text('Any types of Tennis or Squash Racket',
-                          style: TextStyle(
-                            fontSize:15,
-                            color:Colors.white,
-                            fontFamily:'NanumSquareB',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height:20),
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left:15,bottom:15),
-                        width:290,
-                        height:43,
-                        decoration:BoxDecoration(
-                          color: Color(0xFFF9F9F9),
-                          border: Border.all(
-                            width: 1.0,
-                            color: Color(0xFFcccccc),
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: TextField(
-                          keyboardType: TextInputType.text,
-                          onChanged: (text){
-                          },
-                          decoration: InputDecoration(
-                            hintText: '1 Rocket',
-                            hintStyle: TextStyle(
-                              fontSize:13,
-                            ),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap:(){
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(left:8,right:8),
-                          width: 100,
-                          height:40,
-                          decoration:BoxDecoration(
-                            color:Color(0xFF025595),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Center(
-                            child: Text('15 USD',
-                              style: TextStyle(
-                                fontSize:15,
-                                color:Colors.white,
-                                fontFamily:'NanumSquareB',
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height:20),
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left:15,bottom:15),
-                        width:290,
-                        height:43,
-                        decoration:BoxDecoration(
-                          color: Color(0xFFF9F9F9),
-                          border: Border.all(
-                            width: 1.0,
-                            color: Color(0xFFcccccc),
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: TextField(
-                          keyboardType: TextInputType.text,
-                          onChanged: (text){
-                          },
-                          decoration: InputDecoration(
-                            hintText: '3 Rocket',
-                            hintStyle: TextStyle(
-                              fontSize:13,
-                            ),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap:(){
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(left:8,right:8),
-                          width: 100,
-                          height:40,
-                          decoration:BoxDecoration(
-                            color:Color(0xFF025595),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Center(
-                            child: Text('40 USD',
-                              style: TextStyle(
-                                fontSize:15,
-                                color:Colors.white,
-                                fontFamily:'NanumSquareB',
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height:40),
-                  Center(
-                    child: InkWell(
-                      onTap:(){
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left:8,right:8),
-                        padding: EdgeInsets.only(left:10,right:10),
-                        width: 290,
-                        height:40,
-                        decoration:BoxDecoration(
-                          color:Color(0xFF025595),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Center(
-                          child: Text('저장',
-                            style: TextStyle(
-                              fontSize:15,
-                              color:Colors.white,
-                              fontFamily:'NanumSquareB',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),);
-          },
-          child: Container(
-            padding: EdgeInsets.only(left:17.0,right:17),
-            width:Get.width,
-            height:40,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide( // POINT
-                  color: Color(0xFFCCCCCC),
-                  width: 1.0,
-                ),
-              ),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  flex:4,
-                  child: Text('s10'),
-                ),
-                Expanded(
-                  flex:3,
-                  child: Center(child: Text('멤버십 PRO')),
-                ),
-                Expanded(
-                  flex:2,
-                  child: Center(child: Text('2021.10.14')),
-                ),
-                Expanded(
-                  flex:1,
-                  child: Center(child: Text('인보이스')),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left:17.0,right:17),
-          width:Get.width,
-          height:40,
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide( // POINT
-                color: Color(0xFFCCCCCC),
-                width: 1.0,
-              ),
-            ),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                flex:4,
-                child: Text('\$10'),
-              ),
-              Expanded(
-                flex:3,
-                child: Center(child: Text('멤버십 2PRO')),
-              ),
-              Expanded(
-                flex:2,
-                child: Center(child: Text('2021.10.14')),
-              ),
-              Expanded(
-                flex:1,
-                child: Center(child: Text('인보이스')),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left:17.0,right:17),
-          width:Get.width,
-          height:40,
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide( // POINT
-                color: Color(0xFFCCCCCC),
-                width: 1.0,
-              ),
-            ),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                flex:4,
-                child: Text('s10'),
-              ),
-              Expanded(
-                flex:3,
-                child: Center(child: Text('멤버십 2PRO')),
-              ),
-              Expanded(
-                flex:2,
-                child: Center(child: Text('2021.10.14')),
-              ),
-              Expanded(
-                flex:1,
-                child: Center(child: Text('인보이스')),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left:17.0,right:17),
-          width:Get.width,
-          height:40,
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide( // POINT
-                color: Color(0xFFCCCCCC),
-                width: 1.0,
-              ),
-            ),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                flex:4,
-                child: Text('s10'),
-              ),
-              Expanded(
-                flex:3,
-                child: Center(child: Text('멤버십 PRO')),
-              ),
-              Expanded(
-                flex:2,
-                child: Center(child: Text('2021.10.14')),
-              ),
-              Expanded(
-                flex:1,
-                child: Center(child: Text('인보이스')),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left:17.0,right:17),
-          width:Get.width,
-          height:40,
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide( // POINT
-                color: Color(0xFFCCCCCC),
-                width: 1.0,
-              ),
-            ),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                flex:4,
-                child: Text('s10'),
-              ),
-              Expanded(
-                flex:3,
-                child: Center(child: Text('멤버십 PRO')),
-              ),
-              Expanded(
-                flex:2,
-                child: Center(child: Text('2021.10.14')),
-              ),
-              Expanded(
-                flex:1,
-                child: Center(child: Text('인보이스')),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left:17.0,right:17),
-          width:Get.width,
-          height:40,
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide( // POINT
-                color: Color(0xFFCCCCCC),
-                width: 1.0,
-              ),
-            ),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                flex:4,
-                child: Text('s10'),
-              ),
-              Expanded(
-                flex:3,
-                child: Center(child: Text('멤버십 PRO')),
-              ),
-              Expanded(
-                flex:2,
-                child: Center(child: Text('2021.10.14')),
-              ),
-              Expanded(
-                flex:1,
-                child: Center(child: Text('인보이스')),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  ),
-];
-
-
-
-List<Widget> slide2 = [
-  Container(
-    child: Text('xxxx'),
-  ),
-];
-
-late Widget top;
-
 class TablePage extends StatefulWidget {
+  const TablePage({Key? key}) : super(key: key);
+
   @override
   _TablePageState createState() => _TablePageState();
 }
 
 class _TablePageState extends State<TablePage> {
-  HDTRefreshController _hdtRefreshController = HDTRefreshController();
-
-  static const int sortName = 0;
-  static const int sortStatus = 1;
-  bool isAscending = true;
-  int sortType = sortName;
-
-
-
-  List<String> map = [
-    '글쓰기',
-    '구독정보',
-  ];
-
   String? selectedValue;
 
   final _formKey = GlobalKey<FormState>();
-  PageController _controller = PageController(initialPage: 490);
-  double i = 0;
 
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -540,7 +38,7 @@ class _TablePageState extends State<TablePage> {
                 icon: Icon(
                   Icons.menu,
                   size: 45,
-                  color:Colors.white,
+                  color: Colors.white,
                 ), // 햄버거버튼 아이콘 생성
                 onPressed: () {
                   Scaffold.of(context).openEndDrawer();
@@ -558,10 +56,10 @@ class _TablePageState extends State<TablePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                margin: EdgeInsets.only(left:15,right:15),
-                width:350,
-                height:43,
-                decoration:BoxDecoration(
+                margin: EdgeInsets.only(left: 15, right: 15),
+                width: 350,
+                height: 43,
+                decoration: BoxDecoration(
                   color: Color(0xFFF9F9F9),
                   border: Border.all(
                     width: 1.0,
@@ -571,8 +69,7 @@ class _TablePageState extends State<TablePage> {
                 ),
                 child: TextField(
                   keyboardType: TextInputType.text,
-                  onChanged: (text){
-                  },
+                  onChanged: (text) {},
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       icon: Padding(
@@ -581,21 +78,20 @@ class _TablePageState extends State<TablePage> {
                 ),
               ),
               InkWell(
-                onTap:(){
-
-                },
+                onTap: () {},
                 child: Container(
-                  width:70,
-                  height:43,
-                  decoration:BoxDecoration(
+                  width: 70,
+                  height: 43,
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color:Color(0xFF025595),
+                    color: Color(0xFF025595),
                   ),
                   child: Center(
-                    child: Text('search',
+                    child: Text(
+                      'search',
                       style: TextStyle(
-                        color:Colors.white,
-                        fontSize:18,
+                        color: Colors.white,
+                        fontSize: 18,
                       ),
                     ),
                   ),
@@ -603,10 +99,10 @@ class _TablePageState extends State<TablePage> {
               ),
             ],
           ),
-          SizedBox(width:50),
+          SizedBox(width: 50),
           Container(
-            width:120,
-            height:43,
+            width: 120,
+            height: 43,
             child: Form(
               key: _formKey,
               child: DropdownButtonFormField2(
@@ -639,16 +135,15 @@ class _TablePageState extends State<TablePage> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 items: map
-                    .map((item) =>
-                    DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          fontSize: 13,
-                        ),
-                      ),
-                    ))
+                    .map((item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 13,
+                            ),
+                          ),
+                        ))
                     .toList(),
                 validator: (value) {
                   if (value == null) {
@@ -657,10 +152,10 @@ class _TablePageState extends State<TablePage> {
                 },
                 onChanged: (value) {
                   print(value);
-                  if (value == "글쓰기"){
-                    Get.to(WritingPage());
-                  }else if (value == "구독정보"){
-                    Get.to(TablePage());
+                  if (value == "글쓰기") {
+                    Get.to(const WritingPage());
+                  } else if (value == "구독정보") {
+                    Get.to(const TablePage());
                   }
                   //Do something when changing the item if you want.
                 },
@@ -678,324 +173,341 @@ class _TablePageState extends State<TablePage> {
     return Scaffold(
       body: SafeArea(
           child: Container(
-            color:Colors.white,
-            padding: EdgeInsets.all(20),
-            child: Column(
-              children: [
-                Container(
+        color: Colors.white,
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width / 30,
+                  right: MediaQuery.of(context).size.width / 30),
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Expanded(
+                      child: Text(
+                    'Boston Sports Second Hand Market',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  )),
+                  Expanded(
+                    flex: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        top,
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 9,
+              child: SingleChildScrollView(
+                child: Container(
+                  width: Get.width,
                   padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 30,
-                      right: MediaQuery.of(context).size.width / 30),
-                  color: Colors.white,
-                  child: Row(
+                    left: 300,
+                    right: 300,
+                    top: 200,
+                  ),
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                          child: Row(
-                            children: [
-                              Text('Boston Sports Second Hand Market',
-                                style:TextStyle(
-                                  fontSize:20,
-                                ),
-                              ),
-                            ],
-                          )),
-                      Expanded(
-                        flex: 0,
+                      SizedBox(
+                        width: Get.width,
+                        child: Text(
+                          '내 구독정보',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'NanumSquareB',
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      Container(
+                        padding: EdgeInsets.only(left: 17.0, right: 17),
+                        width: Get.width,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              // POINT
+                              color: Color(0xFFCCCCCC),
+                              width: 2.0,
+                            ),
+                            bottom: BorderSide(
+                              // POINT
+                              color: Color(0xFFCCCCCC),
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            top,
+                            Expanded(
+                              flex: 4,
+                              child: Text('합계'),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Center(child: Text('내역')),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Center(child: Text('날짜')),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Center(child: Text('영수증')),
+                            ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 9,
-                  child:SingleChildScrollView(
-                    child: Container(
-                      width:Get.width,
-                      padding: EdgeInsets.only(left:300,right:300,top:200,),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width:Get.width,
-                            child: Row(
-                              children: [
-                                Text('내 구독정보',
-                                  style:TextStyle(
-                                    fontSize:20,
-                                    fontFamily: 'NanumSquareB',
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height:30),
-                          Container(
-                            padding: EdgeInsets.only(left:17.0,right:17),
-                            width:Get.width,
-                            height:40,
-                            decoration: BoxDecoration(
-                              border: Border(
-                                top: BorderSide( // POINT
-                                  color: Color(0xFFCCCCCC),
-                                  width: 2.0,
-                                ),
-                                bottom: BorderSide( // POINT
-                                  color: Color(0xFFCCCCCC),
-                                  width: 1.0,
-                                ),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex:4,
-                                  child: Text('합계'),
-                                ),
-                                Expanded(
-                                  flex:3,
-                                  child: Center(child: Text('내역')),
-                                ),
-                                Expanded(
-                                  flex:2,
-                                  child: Center(child: Text('날짜')),
-                                ),
-                                Expanded(
-                                  flex:1,
-                                  child: Center(child: Text('영수증')),
-                                ),
-                              ],
-                            ),
-                          ),
-
-
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: 10,
-                              itemBuilder: (BuildContext context, int index){
-                            return   InkWell(
-                              onTap:(){
-                                Get.dialog(   AlertDialog(
-                                  shape:RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(32),
-                                      )
-                                  ),
-                                  backgroundColor: Colors.white,
-                                  content:Container(
-                                    height:350,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            InkWell(
-                                                onTap:(){
-                                                },
-                                                child: Container()
-                                            ),
-                                            InkWell(
-                                                onTap:(){
-                                                  Get.back();
-                                                },
-                                                child: Container(child: Icon(Icons.close))),
-                                          ],
-                                        ),
-                                        InkWell(
-                                          onTap:(){
-                                          },
-                                          child: Container(
-                                            width: 200,
-                                            height:40,
-                                            decoration:BoxDecoration(
-                                              color:Color(0xFF025595),
-                                              borderRadius: BorderRadius.circular(5),
-                                            ),
-                                            child: Center(
-                                              child: Text('Stringing Service Price',
-                                                style: TextStyle(
-                                                  fontSize:15,
-                                                  color:Colors.white,
-                                                  fontFamily:'NanumSquareB',
-                                                ),
-                                              ),
-                                            ),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: 10,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: () {
+                                Get.dialog(
+                                  AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                      Radius.circular(32),
+                                    )),
+                                    backgroundColor: Colors.white,
+                                    content: SizedBox(
+                                      height: 350,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              InkWell(
+                                                  onTap: () {
+                                                    Get.back();
+                                                  },
+                                                  child: Icon(Icons.close)),
+                                            ],
                                           ),
-                                        ),
-                                        SizedBox(height:20),
-                                        InkWell(
-                                          onTap:(){
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.only(left:10,right:10),
-                                            width: 290,
-                                            height:40,
-                                            decoration:BoxDecoration(
-                                              color:Color(0xFF025595),
-                                              borderRadius: BorderRadius.circular(5),
-                                            ),
-                                            child: Center(
-                                              child: Text('Any types of Tennis or Squash Racket',
-                                                style: TextStyle(
-                                                  fontSize:15,
-                                                  color:Colors.white,
-                                                  fontFamily:'NanumSquareB',
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(height:20),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.only(left:15,bottom:15),
-                                              width:290,
-                                              height:43,
-                                              decoration:BoxDecoration(
-                                                color: Color(0xFFF9F9F9),
-                                                border: Border.all(
-                                                  width: 1.0,
-                                                  color: Color(0xFFcccccc),
-                                                ),
-                                                borderRadius: BorderRadius.circular(5),
-                                              ),
-                                              child: TextField(
-                                                keyboardType: TextInputType.text,
-                                                onChanged: (text){
-                                                },
-                                                decoration: InputDecoration(
-                                                  hintText: '1 Rocket',
-                                                  hintStyle: TextStyle(
-                                                    fontSize:13,
-                                                  ),
-                                                  border: InputBorder.none,
-                                                ),
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap:(){
-                                              },
-                                              child: Container(
-                                                margin: EdgeInsets.only(left:8,right:8),
-                                                width: 100,
-                                                height:40,
-                                                decoration:BoxDecoration(
-                                                  color:Color(0xFF025595),
-                                                  borderRadius: BorderRadius.circular(5),
-                                                ),
-                                                child: Center(
-                                                  child: Text('15 USD',
-                                                    style: TextStyle(
-                                                      fontSize:15,
-                                                      color:Colors.white,
-                                                      fontFamily:'NanumSquareB',
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height:20),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.only(left:15,bottom:15),
-                                              width:290,
-                                              height:43,
-                                              decoration:BoxDecoration(
-                                                color: Color(0xFFF9F9F9),
-                                                border: Border.all(
-                                                  width: 1.0,
-                                                  color: Color(0xFFcccccc),
-                                                ),
-                                                borderRadius: BorderRadius.circular(5),
-                                              ),
-                                              child: TextField(
-                                                keyboardType: TextInputType.text,
-                                                onChanged: (text){
-                                                },
-                                                decoration: InputDecoration(
-                                                  hintText: '3 Rocket',
-                                                  hintStyle: TextStyle(
-                                                    fontSize:13,
-                                                  ),
-                                                  border: InputBorder.none,
-                                                ),
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap:(){
-                                              },
-                                              child: Container(
-                                                margin: EdgeInsets.only(left:8,right:8),
-                                                width: 100,
-                                                height:40,
-                                                decoration:BoxDecoration(
-                                                  color:Color(0xFF025595),
-                                                  borderRadius: BorderRadius.circular(5),
-                                                ),
-                                                child: Center(
-                                                  child: Text('40 USD',
-                                                    style: TextStyle(
-                                                      fontSize:15,
-                                                      color:Colors.white,
-                                                      fontFamily:'NanumSquareB',
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height:40),
-                                        Center(
-                                          child: InkWell(
-                                            onTap:(){
-                                            },
+                                          InkWell(
+                                            onTap: () {},
                                             child: Container(
-                                              margin: EdgeInsets.only(left:8,right:8),
-                                              padding: EdgeInsets.only(left:10,right:10),
-                                              width: 290,
-                                              height:40,
-                                              decoration:BoxDecoration(
-                                                color:Color(0xFF025595),
-                                                borderRadius: BorderRadius.circular(5),
+                                              width: 200,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFF025595),
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
                                               ),
                                               child: Center(
-                                                child: Text('저장',
+                                                child: Text(
+                                                  'Stringing Service Price',
                                                   style: TextStyle(
-                                                    fontSize:15,
-                                                    color:Colors.white,
-                                                    fontFamily:'NanumSquareB',
+                                                    fontSize: 15,
+                                                    color: Colors.white,
+                                                    fontFamily: 'NanumSquareB',
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                          SizedBox(height: 20),
+                                          InkWell(
+                                            onTap: () {},
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              width: 290,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFF025595),
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  'Any types of Tennis or Squash Racket',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.white,
+                                                    fontFamily: 'NanumSquareB',
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 20),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.only(
+                                                    left: 15, bottom: 15),
+                                                width: 290,
+                                                height: 43,
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xFFF9F9F9),
+                                                  border: Border.all(
+                                                    width: 1.0,
+                                                    color: Color(0xFFcccccc),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: TextField(
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  onChanged: (text) {},
+                                                  decoration: InputDecoration(
+                                                    hintText: '1 Rocket',
+                                                    hintStyle: TextStyle(
+                                                      fontSize: 13,
+                                                    ),
+                                                    border: InputBorder.none,
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {},
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 8, right: 8),
+                                                  width: 100,
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFF025595),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      '15 USD',
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: Colors.white,
+                                                        fontFamily:
+                                                            'NanumSquareB',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 20),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.only(
+                                                    left: 15, bottom: 15),
+                                                width: 290,
+                                                height: 43,
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xFFF9F9F9),
+                                                  border: Border.all(
+                                                    width: 1.0,
+                                                    color: Color(0xFFcccccc),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: TextField(
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  onChanged: (text) {},
+                                                  decoration: InputDecoration(
+                                                    hintText: '3 Rocket',
+                                                    hintStyle: TextStyle(
+                                                      fontSize: 13,
+                                                    ),
+                                                    border: InputBorder.none,
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {},
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 8, right: 8),
+                                                  width: 100,
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFF025595),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      '40 USD',
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: Colors.white,
+                                                        fontFamily:
+                                                            'NanumSquareB',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 40),
+                                          Center(
+                                            child: InkWell(
+                                              onTap: () {},
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                    left: 8, right: 8),
+                                                padding: EdgeInsets.only(
+                                                    left: 10, right: 10),
+                                                width: 290,
+                                                height: 40,
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xFF025595),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    '저장',
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.white,
+                                                      fontFamily:
+                                                          'NanumSquareB',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),);
+                                );
                               },
                               child: Container(
-                                padding: EdgeInsets.only(left:17.0,right:17),
-                                width:Get.width,
-                                height:40,
+                                padding: EdgeInsets.only(left: 17.0, right: 17),
+                                width: Get.width,
+                                height: 40,
                                 decoration: BoxDecoration(
                                   border: Border(
-                                    bottom: BorderSide( // POINT
+                                    bottom: BorderSide(
+                                      // POINT
                                       color: Color(0xFFCCCCCC),
                                       width: 1.0,
                                     ),
@@ -1004,19 +516,19 @@ class _TablePageState extends State<TablePage> {
                                 child: Row(
                                   children: [
                                     Expanded(
-                                      flex:4,
+                                      flex: 4,
                                       child: Text('\$10'),
                                     ),
                                     Expanded(
-                                      flex:3,
+                                      flex: 3,
                                       child: Center(child: Text('멤버십 PRO')),
                                     ),
                                     Expanded(
-                                      flex:2,
+                                      flex: 2,
                                       child: Center(child: Text('2021.10.14')),
                                     ),
                                     Expanded(
-                                      flex:1,
+                                      flex: 1,
                                       child: Center(child: Text('인보이스')),
                                     ),
                                   ],
@@ -1024,129 +536,14 @@ class _TablePageState extends State<TablePage> {
                               ),
                             );
                           }),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )),
-      endDrawer: new Drawer(
-        child: Drawer(
-          child: Container(
-            child: ListView(
-              children: <Widget>[
-                ListTile(
-                  tileColor: Color(0xFFf1892c),
-                  leading: IconButton(
-                    icon: Icon(Icons.home_filled),
-                    onPressed: () {
-                      Navigator.pop(
-                        context,
-                        MaterialPageRoute(builder: (context) => MainPage()),
-                      );
-                      print('success');
-                    },
-                    color: Colors.white,
-                  ),
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () {
-                          Navigator.pop(
-                            context,
-                            MaterialPageRoute(builder: (context) => MainPage()),
-                          );
-                          print('success');
-                        },
-                        color: Colors.white,
-                      ),
                     ],
                   ),
                 ),
-                InkWell(
-                  child: Card(
-                      child: InkWell(
-                        onTap: () {
-
-                        },
-                        child: ListTile(
-                          title: Text(
-                            'EMDR',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      )),
-                ),
-                InkWell(
-                  child: Card(
-                      child: InkWell(
-                        onTap: () {
-
-
-                        },
-                        child: ListTile(
-                          title: Text(
-                            'BRAIN EXERCISE',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      )),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MainPage()),
-                    );
-                    print('success');
-                  },
-                  child: Card(
-                      child: ListTile(
-                        title: Text(
-                          'COMPANY',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )),
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
-      ),
-    );
-  }
-}
-
-class DetailScreen extends StatelessWidget {
-  DetailScreen(this.i, {Key? key}) : super(key: key);
-  int i;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: GestureDetector(
-        child: Center(
-          child: Hero(
-            tag: 'patent_$i',
-            child: Image.asset("assets/patent_$i.jpg"),
-          ),
-        ),
-        onTap: () {
-          Navigator.pop(context);
-        },
-      ),
+      )),
     );
   }
 }
