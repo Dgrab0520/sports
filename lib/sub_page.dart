@@ -115,7 +115,7 @@ class _SubPageState extends State<SubPage> {
                 hint: Row(
                   children: [
                     Text(
-                      '글쓰기',
+                      '메뉴',
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
@@ -181,13 +181,18 @@ class _SubPageState extends State<SubPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Expanded(
-                      child: Text(
+                   Expanded(
+                      child: InkWell(
+                        onTap:(){
+                          Get.to(MainPage());
+                        },
+                        child: Text(
                     'Boston Sports Second Hand Market',
                     style: TextStyle(
-                      fontSize: 20,
+                        fontSize: 20,
                     ),
-                  )),
+                  ),
+                      )),
                   Expanded(
                     flex: 0,
                     child: Row(
