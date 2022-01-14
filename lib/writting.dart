@@ -172,7 +172,7 @@ class _WritingPageState extends State<WritingPage> {
       body: SafeArea(
           child: Container(
         color: Colors.white,
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.only(top:20),
         child: Column(
           children: [
             Container(
@@ -332,52 +332,60 @@ class _WritingPageState extends State<WritingPage> {
                         ),
                       ),
                       SizedBox(height: 30),
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 15, bottom: 10),
-                            width: 200,
-                            height: 43,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFF9F9F9),
-                              border: Border.all(
-                                width: 1.0,
-                                color: Color(0xFFcccccc),
-                              ),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              keyboardType: TextInputType.text,
-                              onChanged: (text) {},
-                              decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                  fontSize: 13,
+                      Container(
+                        width:300,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex:2,
+                              child: Container(
+                                padding: EdgeInsets.only(left: 15, bottom: 10),
+                                width: 200,
+                                height: 43,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFF9F9F9),
+                                  border: Border.all(
+                                    width: 1.0,
+                                    color: Color(0xFFcccccc),
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          InkWell(
-                            onTap: () {},
-                            child: Container(
-                              width: 100,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Color(0xFFD9D9D9),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '파일열기',
-                                  style: TextStyle(
-                                    fontSize: 16,
+                                child: TextField(
+                                  keyboardType: TextInputType.text,
+                                  onChanged: (text) {},
+                                  decoration: InputDecoration(
+                                    hintStyle: TextStyle(
+                                      fontSize: 13,
+                                    ),
+                                    border: InputBorder.none,
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  width: 100,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color(0xFFD9D9D9),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '파일열기',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -174,7 +174,7 @@ class _TablePageState extends State<TablePage> {
       body: SafeArea(
           child: Container(
         color: Colors.white,
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.only(top:20),
         child: Column(
           children: [
             Container(
