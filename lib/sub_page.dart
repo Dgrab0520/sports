@@ -255,6 +255,10 @@ class _SubPageState extends State<SubPage> {
                                 ),
                               ],
                             ),
+                            SizedBox(height:30),
+                            Container(
+                              child: Text('컨텐츠 내용'),
+                            ),
                           ],
                         ),
                       ],

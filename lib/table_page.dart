@@ -476,7 +476,9 @@ class _TablePageState extends State<TablePage> {
                                           SizedBox(height: 40),
                                           Center(
                                             child: InkWell(
-                                              onTap: () {},
+                                              onTap: () {
+                                                Get.off;
+                                              },
                                               child: Container(
                                                 margin: EdgeInsets.only(
                                                     left: 8, right: 8),
