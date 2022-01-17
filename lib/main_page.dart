@@ -7,6 +7,9 @@ import 'package:get/get.dart';
 import 'package:sports/sub_page.dart';
 import 'package:sports/table_page.dart';
 import 'package:sports/writting.dart';
+import 'package:sports/models/item_model.dart';
+
+import 'datas/item_data.dart';
 
 late Widget top;
 List<String> map = [
@@ -22,14 +25,38 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  List<Item> item = [];
   String? selectedValue;
+  bool? _isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
+    getItem();
     super.initState();
   }
+
+  getItem(){
+    Item_Data.getItem().then((value){
+      setState(() {
+        item = value;
+      });
+      if(value.length > 0){
+        setState(() {
+          _isLoading = true;
+        });
+      }else{
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    });
+  }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -196,12 +223,12 @@ class _MainPageState extends State<MainPage> {
                         onTap:(){
                           Get.to(MainPage());
                         },
-                        child: Text(
-                    'Boston Sports Second Hand Market',
-                    style: TextStyle(
-                        fontSize: 20,
-                    ),
-                  ),
+                        child: _isLoading! ? Text(
+                          'Boston Sports Second Hand Market${item[0].user_id}',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ) : CircularProgressIndicator(),
                       )),
                   Expanded(
                     flex: 0,
