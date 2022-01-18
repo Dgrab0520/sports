@@ -4,10 +4,10 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sports/models/item_model.dart';
 import 'package:sports/sub_page.dart';
 import 'package:sports/table_page.dart';
 import 'package:sports/writting.dart';
-import 'package:sports/models/item_model.dart';
 
 import 'datas/item_data.dart';
 
@@ -37,26 +37,22 @@ class _MainPageState extends State<MainPage> {
     super.initState();
   }
 
-  getItem(){
-    Item_Data.getItem().then((value){
+  getItem() {
+    Item_Data.getItem().then((value) {
       setState(() {
         item = value;
       });
-      if(value.length > 0){
+      if (value.isNotEmpty) {
         setState(() {
           _isLoading = true;
         });
-      }else{
+      } else {
         setState(() {
           _isLoading = false;
         });
       }
     });
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +84,7 @@ class _MainPageState extends State<MainPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                alignment : Alignment.center,
+                alignment: Alignment.center,
                 margin: EdgeInsets.only(left: 15, right: 15),
                 width: 350,
                 height: 43,
@@ -98,17 +94,15 @@ class _MainPageState extends State<MainPage> {
                     width: 1.0,
                     color: Color(0xFFcccccc),
                   ),
-
                   borderRadius: BorderRadius.circular(5),
                 ),
-
                 child: TextField(
                   keyboardType: TextInputType.text,
                   onChanged: (text) {},
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(
-                        bottom: 8,  // HERE THE IMPORTANT PART
+                        bottom: 8, // HERE THE IMPORTANT PART
                       ),
                       icon: Padding(
                           padding: EdgeInsets.only(left: 13),
@@ -206,7 +200,7 @@ class _MainPageState extends State<MainPage> {
       body: SafeArea(
           child: Container(
         color: Colors.white,
-        padding: EdgeInsets.only(top:20),
+        padding: EdgeInsets.only(top: 20),
         child: Column(
           children: [
             Container(
@@ -218,18 +212,20 @@ class _MainPageState extends State<MainPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                   Expanded(
+                  Expanded(
                       child: InkWell(
-                        onTap:(){
-                          Get.to(MainPage());
-                        },
-                        child: _isLoading! ? Text(
-                          'Boston Sports Second Hand Market${item[0].user_id}',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ) : CircularProgressIndicator(),
-                      )),
+                    onTap: () {
+                      Get.to(MainPage());
+                    },
+                    child: _isLoading!
+                        ? Text(
+                            'Boston Sports Second Hand Market${item[0].user_id}',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          )
+                        : CircularProgressIndicator(),
+                  )),
                   Expanded(
                     flex: 0,
                     child: Row(
@@ -245,346 +241,364 @@ class _MainPageState extends State<MainPage> {
             SizedBox(height: 200),
             Expanded(
               flex: 9,
-              child: MediaQuery.of(context).size.width < 1500  ? ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  itemBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      height: 400,
-                      child: Container(
-                        padding: EdgeInsets.only(top:80),
-                        color:Color(0xFFEBEBEB),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: InkWell(
-                                  onTap: () {
-                                    Get.to(const SubPage());
-                                  },
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Image.asset("assets/img1.png",
-                                          width: 200, height: 200),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        '우드선반',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'NanumSquareR'),
+              child: MediaQuery.of(context).size.width < 1500
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 4,
+                      itemBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 400,
+                          child: Container(
+                            padding: EdgeInsets.only(top: 80),
+                            color: Color(0xFFEBEBEB),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Get.to(const SubPage());
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Image.asset("assets/img1.png",
+                                              width: 200, height: 200),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '우드선반',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: 'NanumSquareR'),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '2,000원',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontFamily: 'NanumSquareB'),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '서울 송파구 가락동',
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontFamily: 'NanumSquareR'),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        '2,000원',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: 'NanumSquareB'),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        '서울 송파구 가락동',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: 'NanumSquareR'),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: InkWell(
-                                  onTap: () {
-                                    Get.to(const SubPage());
-                                  },
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Image.asset("assets/img2.png",
-                                          width: 200, height: 200),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        '우드선반',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'NanumSquareR'),
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Get.to(const SubPage());
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Image.asset("assets/img2.png",
+                                              width: 200, height: 200),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '우드선반',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: 'NanumSquareR'),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '2,000원',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontFamily: 'NanumSquareB'),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '서울 송파구 가락동',
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontFamily: 'NanumSquareR'),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        '2,000원',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: 'NanumSquareB'),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        '서울 송파구 가락동',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: 'NanumSquareR'),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: InkWell(
-                                  onTap: () {
-                                    Get.to(const SubPage());
-                                  },
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Image.asset("assets/img3.png",
-                                          width: 200, height: 200),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        '우드선반',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'NanumSquareR'),
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Get.to(const SubPage());
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Image.asset("assets/img3.png",
+                                              width: 200, height: 200),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '우드선반',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: 'NanumSquareR'),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '2,000원',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontFamily: 'NanumSquareB'),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '서울 송파구 가락동',
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontFamily: 'NanumSquareR'),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        '2,000원',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: 'NanumSquareB'),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        '서울 송파구 가락동',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: 'NanumSquareR'),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: InkWell(
-                                  onTap: () {
-                                    Get.to(const SubPage());
-                                  },
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Image.asset("assets/img4.png",
-                                          width: 200, height: 200),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        '우드선반',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'NanumSquareR'),
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Get.to(const SubPage());
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Image.asset("assets/img4.png",
+                                              width: 200, height: 200),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '우드선반',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: 'NanumSquareR'),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '2,000원',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontFamily: 'NanumSquareB'),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '서울 송파구 가락동',
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontFamily: 'NanumSquareR'),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        '2,000원',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: 'NanumSquareB'),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        '서울 송파구 가락동',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: 'NanumSquareR'),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }) : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  itemBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      height: 400,
-                      child: Container(
-                        padding: EdgeInsets.only(top:80),
-                        color: Color(0xFFEBEBEB),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Align(
-                              alignment: Alignment.center,
-                              child: InkWell(
-                                onTap: () {
-                                  Get.to(const SubPage());
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset("assets/img1.png",
-                                        width: 200, height: 200),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '우드선반',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'NanumSquareR'),
+                          ),
+                        );
+                      })
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 4,
+                      itemBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 400,
+                          child: Container(
+                            padding: EdgeInsets.only(top: 80),
+                            color: Color(0xFFEBEBEB),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.to(const SubPage());
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Image.asset("assets/img1.png",
+                                            width: 200, height: 200),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '우드선반',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'NanumSquareR'),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '2,000원',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'NanumSquareB'),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '서울 송파구 가락동',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: 'NanumSquareR'),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '2,000원',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: 'NanumSquareB'),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '서울 송파구 가락동',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontFamily: 'NanumSquareR'),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                            SizedBox(width:80),
-                            Align(
-                              alignment: Alignment.center,
-                              child: InkWell(
-                                onTap: () {
-                                  Get.to(const SubPage());
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset("assets/img2.png",
-                                        width: 200, height: 200),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '우드선반',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'NanumSquareR'),
+                                SizedBox(width: 80),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.to(const SubPage());
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Image.asset("assets/img2.png",
+                                            width: 200, height: 200),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '우드선반',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'NanumSquareR'),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '2,000원',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'NanumSquareB'),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '서울 송파구 가락동',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: 'NanumSquareR'),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '2,000원',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: 'NanumSquareB'),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '서울 송파구 가락동',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontFamily: 'NanumSquareR'),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                            SizedBox(width:80),
-                            Align(
-                              alignment: Alignment.center,
-                              child: InkWell(
-                                onTap: () {
-                                  Get.to(const SubPage());
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset("assets/img3.png",
-                                        width: 200, height: 200),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '우드선반',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'NanumSquareR'),
+                                SizedBox(width: 80),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.to(const SubPage());
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Image.asset("assets/img3.png",
+                                            width: 200, height: 200),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '우드선반',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'NanumSquareR'),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '2,000원',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'NanumSquareB'),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '서울 송파구 가락동',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: 'NanumSquareR'),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '2,000원',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: 'NanumSquareB'),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '서울 송파구 가락동',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontFamily: 'NanumSquareR'),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                            SizedBox(width:80),
-                            Align(
-                              alignment: Alignment.center,
-                              child: InkWell(
-                                onTap: () {
-                                  Get.to(const SubPage());
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset("assets/img4.png",
-                                        width: 200, height: 200),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '우드선반',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'NanumSquareR'),
+                                SizedBox(width: 80),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.to(const SubPage());
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Image.asset("assets/img4.png",
+                                            width: 200, height: 200),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '우드선반',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'NanumSquareR'),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '2,000원',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'NanumSquareB'),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '서울 송파구 가락동',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: 'NanumSquareR'),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '2,000원',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: 'NanumSquareB'),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '서울 송파구 가락동',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontFamily: 'NanumSquareR'),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
+                          ),
+                        );
+                      }),
             ),
           ],
         ),
