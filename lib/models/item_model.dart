@@ -1,16 +1,44 @@
 class Item{
-  String user_id;
-  String contents;
+  String item_id;
+  String item_name;
+  String item_category;
+  String item_price;
+  String item_address;
+  String register_date;
+  String item_img1;
+  String item_img2;
+  String item_img3;
+  String status;
+  String index;
 
   Item({
-    required this.user_id,
-    required this.contents,
+    required this.item_id,
+    required this.item_name,
+    required this.item_category,
+    required this.item_price,
+    required this.item_address,
+    required this.register_date,
+    required this.item_img1,
+    required this.item_img2,
+    required this.item_img3,
+    required this.status,
+    required this.index,
   });
 
   factory Item.fromJson(Map<String, dynamic> json){
     return Item(
-      user_id: json['user_id'] as String,
-      contents: json['contents'] as String,
+      item_id: json['item_id'] as String,
+      item_name: json['item_name'] as String,
+      item_category: json['item_category'] as String,
+      item_price: json['item_price'] as String,
+      item_address: json['item_address'] as String,
+      register_date: json['register_date'] as String,
+      item_img1: json['item_img1'] == null ? "" : json['item_img1'] as String,
+      item_img2: json['item_img2'] == null ? "" : json['item_img2'] as String,
+      item_img3: json['item_img3'] == null ? "" : json['item_img3'] as String,
+      status: json['status'] == null ? "" : json['status'] as String,
+      index: json['index'] == null ? "" : json['status'] as String,
+
     );
   }
 
