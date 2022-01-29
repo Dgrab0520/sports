@@ -4,6 +4,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sports/datas/item_data.dart';
+import 'package:sports/models/item_model.dart';
 import 'package:sports/table_page.dart';
 import 'package:sports/writting.dart';
 
@@ -18,11 +20,34 @@ class SubPage extends StatefulWidget {
 
 class _SubPageState extends State<SubPage> {
   String? selectedValue;
+  List<Item> item = [];
+
+  bool _isLoading = false;
+  String img = "img1.png"; //''; //
 
   final _formKey = GlobalKey<FormState>();
 
+  getItem(){
+    Item_Data.getItem(Get.arguments).then((value){
+      setState(() {
+        item = value;
+        // img = '${item[0].item_img1}';
+      });
+        if(value.length == 0){
+          setState(() {
+            _isLoading = false;
+          });
+        }else{
+          setState(() {
+            _isLoading = true;
+          });
+        }
+    });
+  }
+
   @override
   void initState() {
+    getItem();
     super.initState();
   }
 
@@ -177,8 +202,8 @@ class _SubPageState extends State<SubPage> {
           children: [
             Container(
               padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width / 30,
-                  right: MediaQuery.of(context).size.width / 30),
+                  left: Get.width / 30,
+                  right: Get.width / 30),
               color: Colors.white,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -210,7 +235,7 @@ class _SubPageState extends State<SubPage> {
             ),
             Expanded(
               flex: 9,
-              child: SingleChildScrollView(
+              child: _isLoading ? SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -224,48 +249,189 @@ class _SubPageState extends State<SubPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset("assets/img1.png",
-                                width: 400, height: 400),
-                            SizedBox(height: 10),
+                            // Image.network("https://ahsjung.cafe24.com/item_img/$img", width: 500, height: 500),  //${item[index].item_img1}
+                            Image.asset("assets/$img", width: 500, height: 500),
+                            SizedBox(height: 20),
+                            Container(
+                              width: 500,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  width: 200,
+                                  height: 66,
+                                  color: Colors.white,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: (){
+                                            setState(() {
+                                              // img = '${item[0].item_img1}';
+                                               img = 'img1.png';
+                                            });
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(7.5)
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(5.0),
+                                              child: Image.asset('assets/img1.png'), //Image.network("https://ahsjung.cafe24.com/item_img/${item[0].item_img1}", width: 500, height: 500),
+                                            ),
+                                          ),
+                                        )
+                                      ),
+                                      Expanded(
+                                          flex: 1,
+                                          child: InkWell(
+                                            onTap: (){
+                                              setState(() {
+                                                // img = '${item[0].item_img2}';
+                                                img = 'img2.png';
+                                              });
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(7.5)
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(5.0),
+                                                child:  Image.asset('assets/img2.png'),  //Image.network("https://ahsjung.cafe24.com/item_img/${item[0].item_img2}")
+                                              ),
+                                            ),
+                                          )
+                                      ),
+
+                                      Expanded(
+                                          flex: 1,
+                                          child: InkWell(
+                                            onTap: (){
+                                              setState(() {
+                                                // img = '${item[0].item_img3}';
+                                                img = 'img3.png';
+                                              });
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(7.5)
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(5.0),
+                                                child: Image.asset('assets/img3.png'), //Image.network("https://ahsjung.cafe24.com/item_img/${item[0].item_img3}")
+                                              ),
+                                            ),
+                                          )
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: 40),
                             Text(
-                              '우드선반 ( 저렴하게 판매중 )',
+                              '${item[0].item_category}',
                               style: TextStyle(
                                   fontSize: 14, fontFamily: 'NanumSquareR'),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              '2,000원',
-                              style: TextStyle(
-                                  fontSize: 20, fontFamily: 'NanumSquareB'),
                             ),
                             SizedBox(height: 5),
                             Row(
                               children: [
                                 Text(
-                                  '4분전 | 조회 ',
+                                  '${item[0].item_name}',
                                   style: TextStyle(
-                                      fontSize: 12, fontFamily: 'NanumSquareR'),
+                                      fontSize: 20, fontFamily: 'NanumSquareB'),
                                 ),
                                 Text(
-                                  '309',
+                                  '  | ${item[0].item_category}',
                                   style: TextStyle(
-                                      color: Color(0xFFFF6000),
-                                      fontSize: 12,
-                                      fontFamily: 'NanumSquareR'),
+                                      fontSize: 15, color: Colors.grey, fontFamily: 'NanumSquareB'),
                                 ),
                               ],
                             ),
+
+                            SizedBox(height: 5),
+                            Text(
+                              '${item[0].register_date}'.split(' ')[0] + ' | ' + '${item[0].item_address}',
+                              style: TextStyle(
+                                  fontSize: 12, fontFamily: 'NanumSquareR'
+                              ),
+                            ),
                             SizedBox(height:30),
                             Container(
-                              child: Text('컨텐츠 내용'),
+                              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+                              width: 500,
+                              color: Color(0xFFf0f0f0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('상세 내용',
+                                    style: TextStyle(
+                                      fontFamily: 'NanumSquareB',
+                                      fontSize: 15.0,
+                                      color: Colors.black87
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 10.0,),
+
+                                  Divider(
+                                    height: 10,
+                                    thickness: 0.6,
+                                    color: Colors.black38,
+                                  ),
+
+                                  SizedBox(height: 20.0,),
+
+                                  Text('${item[0].item_contents}'.split(" || ")[0],
+                                    style: TextStyle(
+                                        fontFamily: 'NanumSquareB',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 17.0
+                                    ),
+                                  ),
+                                  SizedBox(height: 5.0,),
+                                  Text('${item[0].item_contents}'.split(" || ")[1],
+                                    style: TextStyle(
+                                        fontFamily: 'NanumSquareB',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 17.0
+                                    ),
+                                  ),
+                                  SizedBox(height: 5.0,),
+                                  Text('${item[0].item_contents}'.split(" || ")[2],
+                                    style: TextStyle(
+                                        fontFamily: 'NanumSquareB',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 17.0
+                                    ),
+                                  ),
+                                  SizedBox(height: 5.0,),
+                                  Text('${item[0].item_contents}'.split(" || ")[3],
+                                    style: TextStyle(
+                                        fontFamily: 'NanumSquareB',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 17.0
+                                    ),
+                                    softWrap: false,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 100,
+                                  ),
+                                ],
+                              )
                             ),
+                            SizedBox(height: 50.0,),
                           ],
                         ),
                       ],
                     ),
                   ],
                 ),
-              ),
+              ) : Center(child: CircularProgressIndicator(),),
             ),
           ],
         ),

@@ -13,7 +13,7 @@ class Item_Data {
       var map = <String, dynamic>{};
       map['action'] = ITEM_LIST_ACTION;
       final response = await http.post(Uri.parse(ROOT), body: map);
-      print('Item Select Response: ${response.body}');
+      print('Item List Response: ${response.body}');
       if (response.statusCode == 200) {
         List<Item> list = parseResponse(response.body);
         return list;
@@ -26,10 +26,11 @@ class Item_Data {
     }
   }
 
-  static Future<List<Item>> getItem() async {
+  static Future<List<Item>> getItem(String item_id) async {
     try {
       var map = <String, dynamic>{};
-      map['action'] = ITEM_LIST_ACTION;
+      map['action'] = ITEM_SELECT_ACTION;
+      map['item_id'] = item_id;
       final response = await http.post(Uri.parse(ROOT), body: map);
       print('Item Select Response: ${response.body}');
       if (response.statusCode == 200) {

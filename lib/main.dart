@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sports/main_page.dart';
+import 'package:sports/sub_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +14,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      getPages: [
+        GetPage(
+          name: '/item_sub/:param',
+          page: () => SubPage(),
+        ),
+
+      ],
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

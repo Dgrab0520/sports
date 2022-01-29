@@ -268,7 +268,7 @@ class _MainPageState extends State<MainPage> {
                                   alignment: Alignment.center,
                                   child: InkWell(
                                     onTap: () {
-                                      Get.to(const SubPage());
+                                      Get.to(SubPage(), arguments: item[index].item_id);
                                     },
                                     child: Column(
                                       mainAxisAlignment:
@@ -330,99 +330,68 @@ class _MainPageState extends State<MainPage> {
 
   List<Container> _buildGridTileList(int count) =>
       List.generate(
-        count, (index) =>
-        Container(
+        count, (index) => Container(
           margin: EdgeInsets.symmetric(horizontal: 10.0),
-          child: GridTile(
-            child: Image.asset("assets/img1.png", width: 150, height: 150, fit: BoxFit.cover,), // Image.network("https://ahsjung.cafe24.com/item_img/${item[index].item_img1}", width: 150, height: 150),
-            footer: GridTileBar(
-              backgroundColor: Colors.white,
-              title: Container(
-                margin: EdgeInsets.symmetric(vertical: 2.0),
-                child: Column(
-                  children: [
-                    Center(
-                      child: Text('${item[index].item_category}',
-                        textAlign: TextAlign.center,
-                        softWrap: false,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.black54,
-                            fontFamily: 'NanumSquareR'
+          child: InkWell(
+            onTap: () {
+              Get.to(SubPage(), arguments: item[index].item_id);
+            },
+            child: GridTile(
+              child: Image.asset("assets/img1.png", width: 150, height: 150, fit: BoxFit.cover,), // Image.network("https://ahsjung.cafe24.com/item_img/${item[index].item_img1}", width: 150, height: 150),
+              footer: GridTileBar(
+                backgroundColor: Colors.white,
+                title: Container(
+                    margin: EdgeInsets.symmetric(vertical: 2.0),
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Text('${item[index].item_category}',
+                            textAlign: TextAlign.center,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.black54,
+                                fontFamily: 'NanumSquareR'
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 1.0,),
-                    Center(
-                      child: Text('${item[index].item_name}',
-                        textAlign: TextAlign.center,
-                        softWrap: false,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontFamily: 'NanumSquareB'
+                        SizedBox(height: 1.0,),
+                        Center(
+                          child: Text('${item[index].item_name}',
+                            textAlign: TextAlign.center,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontFamily: 'NanumSquareB'
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
+                    )
+                ),
+                subtitle: Center(
+                  child: Text('${item[index].item_price} 원',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontFamily: 'NanumSquareR'
                     ),
-                  ],
-                )
-              ),
-              subtitle: Center(
-                child: Text('${item[index].item_price} 원',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black,
-                      fontFamily: 'NanumSquareR'
                   ),
                 ),
               ),
             ),
           )
-
-        // Align(
-        //   alignment: Alignment.center,
-        //   child: InkWell(
-        //     onTap: () {
-        //       Get.to(const SubPage());
-        //     },
-        //     child: Column(
-        //       mainAxisAlignment:
-        //       MainAxisAlignment.start,
-        //       crossAxisAlignment:
-        //       CrossAxisAlignment.start,
-        //       children: [
-        //         Image.asset("assets/img1.png", width: 150, height: 150),
-        //         // Image.network("https://ahsjung.cafe24.com/item_img/${item[index].item_img1}", width: 150, height: 150),
-        //         SizedBox(height: 5),
-        //         Text(
-        //           '우드선반',
-        //           style: TextStyle(
-        //               fontSize: 14,
-        //               fontFamily: 'NanumSquareR'),
-        //         ),
-        //         SizedBox(height: 5),
-        //         Text(
-        //           '2,000원',
-        //           style: TextStyle(
-        //               fontSize: 15,
-        //               fontFamily: 'NanumSquareB'),
-        //         ),
-        //         SizedBox(height: 5),
-        //         Text(
-        //           '서울 송파구 가락동',
-        //           style: TextStyle(
-        //               fontSize: 12,
-        //               fontFamily: 'NanumSquareR'),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
       )
+
+
+
+
+
       );
 }
