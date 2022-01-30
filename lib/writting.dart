@@ -1,10 +1,16 @@
+import 'dart:io';
+import 'dart:math';
 import "dart:ui";
-
+import 'package:http/http.dart' as http;
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:sports/datas/item_register_data.dart';
 import 'package:sports/table_page.dart';
+import 'package:async/async.dart';
+import 'package:path/path.dart';
 
 import 'main_page.dart';
 
@@ -18,17 +24,97 @@ class WritingPage extends StatefulWidget {
 class _WritingPageState extends State<WritingPage> {
   String? selectedValue;
   String _selectedValue = '카테고리를 선택하세요';
+  String item_id = "";
+  String img_no = '';
 
   TextEditingController itemController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  PickedFile? _image1;
+  PickedFile? _image2;
+  PickedFile? _image3;
+
 
   final _formKey = GlobalKey<FormState>();
 
+
+  InsertItem(){
+    ItemRegister_Data.updateItem(item_id, itemController.text, _selectedValue, priceController.text, addressController.text, contentController.text, passwordController.text).then((value){
+      if(value == 'success'){
+        print('Item Register Success');
+        Get.back();
+      }else{
+        Get.snackbar("상품 등록 실패", '상품 등록에 실패하였습니다');
+      }
+    });
+  }
+
   @override
   void initState() {
+    item_id = generateRandomString(8);
     super.initState();
   }
+
+
+
+  String generateRandomString(int len) {
+    var r = Random();
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)]).join();
+  }
+
+
+  Future getImageGallery() async {
+    var imageFile = await ImagePicker.platform
+        .pickImage(source: ImageSource.gallery, imageQuality: 50);
+    setState(() {
+      if (img_no == '1') {
+        print('asd');
+        _image1 = imageFile;
+      } else if (img_no == '2') {
+        _image2 = imageFile;
+      } else if (img_no == '3') {
+        _image3 = imageFile;
+      }
+    });
+
+    if (img_no == '1') {
+      upload(File(_image1!.path));
+    } else if (img_no == '2') {
+      upload(File(_image2!.path));
+    } else if (img_no == '3') {
+      upload(File(_image3!.path));
+    }
+
+    print('getImageGallery Success');
+  }
+
+  Future upload(File imageFile) async {
+    var stream = http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+    var uri = Uri.parse("https://ahsjung.cafe24.com/second_item_img.php");
+
+    var request = new http.MultipartRequest("POST", uri);
+    var multipartFile = new http.MultipartFile("image", stream, length,
+        filename: basename(imageFile.path));
+
+    request.files.add(multipartFile);
+    request.fields['item_id'] = item_id;
+    request.fields['img_no'] = img_no;
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      print('Image Uploaded');
+    } else {
+      print('Upload Failed');
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -218,178 +304,9 @@ class _WritingPageState extends State<WritingPage> {
             ),
             Expanded(
               flex: 9,
-              child: MediaQuery.of(context).size.width < 1500
-                  ? SingleChildScrollView(
+              child: SingleChildScrollView(
                 child: Container(
                   width: 1300,
-                  padding: EdgeInsets.only(
-                    left: 300,
-                    right: 300,
-                    top: 200,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: Get.width,
-                        child: Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '포럼 글쓰기',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'NanumSquareB',
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                    width: 70,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(5),
-                                      color: Color(0xFFD9D9D9),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        '취소',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                    width: 70,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(5),
-                                      color: Color(0xFF025595),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        '등록',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      Container(
-                        padding: EdgeInsets.only(left: 15, bottom: 10),
-                        width: Get.width,
-                        height: 43,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF9F9F9),
-                          border: Border.all(
-                            width: 1.0,
-                            color: Color(0xFFcccccc),
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: TextField(
-                          keyboardType: TextInputType.text,
-                          onChanged: (text) {},
-                          decoration: InputDecoration(
-                            hintText: '제목을 입력해주세요.',
-                            hintStyle: TextStyle(
-                              fontSize: 13,
-                            ),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      Container(
-                        padding: EdgeInsets.only(left: 15, bottom: 10),
-                        width: Get.width,
-                        height: 400,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF9F9F9),
-                          border: Border.all(
-                            width: 1.0,
-                            color: Color(0xFFcccccc),
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: TextField(
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          onChanged: (text) {},
-                          decoration: InputDecoration(
-                            hintText: '내용을 입력해주세요.',
-                            hintStyle: TextStyle(
-                              fontSize: 13,
-                            ),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      Row(
-                        children: [
-                          Container(
-                            padding:
-                            EdgeInsets.only(left: 15, bottom: 10),
-                            width: 200,
-                            height: 43,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFF9F9F9),
-                              border: Border.all(
-                                width: 1.0,
-                                color: Color(0xFFcccccc),
-                              ),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          InkWell(
-                            onTap: () {},
-                            child: Container(
-                              width: 100,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Color(0xFFD9D9D9),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '파일열기',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              )
-                  : SingleChildScrollView(
-                child: Container(
-                  width: 1400,
                   padding: EdgeInsets.only(
                     left: 300,
                     right: 300,
@@ -535,6 +452,7 @@ class _WritingPageState extends State<WritingPage> {
                           ),
                         ),
                         child: TextField(
+                          controller: contentController,
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           onChanged: (text) {},
@@ -551,9 +469,9 @@ class _WritingPageState extends State<WritingPage> {
                       Text(
                         '상품 이미지',
                         style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'NanumSquareR',
-                          color: Colors.black87
+                            fontSize: 16,
+                            fontFamily: 'NanumSquareR',
+                            color: Colors.black87
                         ),
                       ),
                       SizedBox(height: 10),
@@ -576,23 +494,29 @@ class _WritingPageState extends State<WritingPage> {
                                   ),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
-                                child: TextField(
-                                  enabled: false,
-                                  keyboardType: TextInputType.text,
-                                  onChanged: (text) {},
-                                  decoration: InputDecoration(
-                                    hintStyle: TextStyle(
-                                      fontSize: 13,
-                                    ),
-                                    border: InputBorder.none,
-                                  ),
-                                ),
+                                child: _image1.isNull ? Text("") : Align(alignment: Alignment.centerLeft, child: Text(_image1!.path.split('localhost:')[1]),),
+                                // TextField(
+                                //   enabled: false,
+                                //   keyboardType: TextInputType.text,
+                                //   onChanged: (text) {},
+                                //   decoration: InputDecoration(
+                                //     hintStyle: TextStyle(
+                                //       fontSize: 13,
+                                //     ),
+                                //     border: InputBorder.none,
+                                //   ),
+                                // ),
                               ),
                             ),
                             SizedBox(width: 10),
                             Expanded(
                               child: InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    img_no = '1';
+                                  });
+                                  getImageGallery();
+                                },
                                 child: Container(
                                   width: 100,
                                   height: 40,
@@ -734,62 +658,105 @@ class _WritingPageState extends State<WritingPage> {
                         ),
                       ),
                       SizedBox(height: 50),
-                      SizedBox(
-                        width: Get.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {Get.back();},
-                              child: Container(
-                                width: 90,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.circular(5),
-                                  color: Color(0xFFD9D9D9),
+
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              child: TextField(
+                                textAlignVertical: TextAlignVertical.center,
+                                controller: passwordController,
+                                style: TextStyle(
+                                  fontSize: 15,
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    '취소',
-                                    style: TextStyle(
-                                      fontSize: 16,
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.vpn_key),
+                                    border: InputBorder.none,
+                                    hintText: "비밀번호를 설정해주세요",
+                                    hintStyle: TextStyle(
+                                      fontSize: 12,
                                     ),
-                                  ),
+                                    fillColor: Color(0xffe8e8e8),
+                                    filled: true,
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 8.0)
                                 ),
                               ),
                             ),
-                            SizedBox(width: 10),
-                            InkWell(
-                              onTap: () {},
-                              child: Container(
-                                width: 90,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.circular(5),
-                                  color: Color(0xFF025595),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '등록',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: SizedBox(
+                              width: Get.width,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: () {Get.back();},
+                                    child: Container(
+                                      width: 90,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(5),
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '취소',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      if(itemController.text != '' && priceController.text != '' && addressController.text != '' && contentController.text != '' && _selectedValue != '카테고리를 선택하세요' && passwordController.text != ''){
+                                        InsertItem();
+                                      }else{
+                                        Get.snackbar('상품 등록 실패', '입력되지 않은 항목이 있습니다');
+                                      }
+
+                                    },
+                                    child: Container(
+                                      width: 90,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(5),
+                                        color: Color(0xFF025595),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '등록',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          )
+                        ],
                       ),
+
+
+
+
                       SizedBox(height: 100.0,)
 
                     ],
                   ),
                 ),
-              )
+              ),
+
 
             ),
           ],
