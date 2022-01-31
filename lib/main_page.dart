@@ -14,7 +14,7 @@ import 'datas/item_data.dart';
 late Widget top;
 List<String> map = [
   '글쓰기',
-  '구독정보',
+  'Racquet String',
 ];
 
 class MainPage extends StatefulWidget {
@@ -181,7 +181,7 @@ class _MainPageState extends State<MainPage> {
                 onChanged: (value) {
                   if (value == "글쓰기") {
                     Get.to(const WritingPage());
-                  } else if (value == "구독정보") {
+                  } else if (value == "Racquet String") {
                     Get.to(const TablePage());
                   }
                   //Do something when changing the item if you want.
