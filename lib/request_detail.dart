@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:selectable/selectable.dart';
 import 'package:sports/datas/racquet_data.dart';
 import 'package:sports/main_page.dart';
 import 'package:sports/models/recquet_model.dart';
@@ -16,6 +17,8 @@ class DetailPage extends StatefulWidget{
 class _DetailPage_State extends State<DetailPage>{
 
   final _formKey = GlobalKey<FormState>();
+
+  TextEditingController passwordController = TextEditingController();
 
   String? selectedValue;
   String request_id = '';
@@ -48,6 +51,19 @@ class _DetailPage_State extends State<DetailPage>{
         });
       }
 
+    });
+  }
+
+  deleterRequest(){
+    RacquetRequest_Data.deleterRequest(request_id).then((value){
+      print('value : $value');
+      if(value == 'success'){
+        print('Request Delete Success');
+        Get.off(TablePage());
+      }else{
+        print("Request Delete Fail");
+        Get.snackbar("삭제 실패", "정상적으로 삭제되지 않았습니다. 잠시 후 다시 시도해주세요");
+      }
     });
   }
 
@@ -268,40 +284,50 @@ class _DetailPage_State extends State<DetailPage>{
                               ],
                             ),
                           ),
-                          SizedBox(height: 70),
+                          SizedBox(height: 40),
                           Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
+                            color: Color(0xFFe6e6e6),
                             width: Get.width,
                             height: 40.0,
-                            child: _isLoading ? Text('${request[0].request_title}') : Container(),
+                            child: _isLoading ? Align(alignment: Alignment.centerLeft,child: Text('Title : ${request[0].request_title}'),) : Container(),
                           ),
+                          SizedBox(height: 10),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                  color: Color(0xFFe6e6e6),
                                   height: 40.0,
                                   width: Get.width,
-                                  child: Text('phone'),
+                                  child: _isLoading ? Align(alignment: Alignment.centerLeft,child: Text('Phone : ${request[0].request_phone}'),) : Container(),
                                 )
                               ),
                               SizedBox(width: 10.0,),
                               Expanded(
                                 flex: 1,
                                 child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                  color: Color(0xFFe6e6e6),
                                   height: 40.0,
                                   width: Get.width,
-                                  child: Text('count'),
+                                  child: _isLoading ? Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text('Count : ${request[0].request_count}')
+                                  ) : Container(),
                                 )
                               ),
 
                             ],
                           ),
-
-
-                          SizedBox(height: 30),
+                          SizedBox(height: 25),
+                          Text('Detail Information', style: TextStyle(color: Colors.deepOrange, fontSize: 16.0, fontWeight: FontWeight.w600),),
+                          SizedBox(height: 8),
                           Container(
-                            padding: EdgeInsets.only(left: 15, bottom: 10),
+                            padding: EdgeInsets.only(left: 15, bottom: 10, top: 10.0),
                             width: Get.width,
                             height: 400,
                             decoration: BoxDecoration(
@@ -311,9 +337,115 @@ class _DetailPage_State extends State<DetailPage>{
                                 color: Color(0xFFcccccc),
                               ),
                             ),
-                            child: Text('contants')
+                            child: _isLoading ? Selectable(
+                              showSelection: true,
+                              selectWordOnDoubleTap: true,
+                              child: Text('${request[0].request_contents}')
+                            ) : Container(),
                           ),
+                          SizedBox(height: 100.0,),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: InkWell(
+                              onTap: (){
+                                Get.defaultDialog(
+                                  title: "Delete Request",
+                                  content: Container(
+                                    width: 500,
+                                    child: Column(
+                                      children: [
+                                        Text('요청서를 삭제하시겠습니까?'),
+                                        SizedBox(height: 30.0,),
+                                        SizedBox(
+                                          width: 400.0,
+                                          child: TextField(
+                                            textAlignVertical: TextAlignVertical.center,
+                                            controller: passwordController,
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                            ),
+                                            decoration: InputDecoration(
+                                                prefixIcon: Icon(Icons.vpn_key),
+                                                border: InputBorder.none,
+                                                hintText: "비밀번호를 입력해주세요",
+                                                hintStyle: TextStyle(
+                                                  fontSize: 12,
+                                                ),
+                                                fillColor: Color(0xffe8e8e8),
+                                                filled: true,
+                                                contentPadding: EdgeInsets.symmetric(horizontal: 8.0)
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 20.0,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: InkWell(
+                                                onTap: (){Get.back();},
+                                                child: Container(
+                                                  width: 100.0,
+                                                  height: 40.0,
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xffe6e6e6),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text('Cancel', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),),
+                                                  ),
+                                                ),
+                                              )
+                                            ),
+                                            SizedBox(width: 10.0,),
 
+                                            Expanded(
+                                                child: InkWell(
+                                                  onTap: (){
+                                                    if(passwordController.text == request[0].request_password){
+                                                      deleterRequest();
+                                                    }else{
+                                                      Get.snackbar("삭제실패", "비밀번호가 일치하지 않습니다");
+                                                      Get.back();
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    width: 100.0,
+                                                    height: 40.0,
+                                                    decoration: BoxDecoration(
+                                                      color: Color(0xffd48787),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text('Delete', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),),
+                                                    ),
+                                                  ),
+                                                ),
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                );
+                              },
+                              child: Container(
+                                width: 100.0,
+                                height: 40.0,
+                                decoration: BoxDecoration(
+                                  color: Color(0xffd48787),
+                                ),
+                                child: Center(
+                                  child: Text('Delete', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),),
+                                ),
+                              ),
+                            ),
+                          ),
                           SizedBox(height: 100.0,)
 
                         ],

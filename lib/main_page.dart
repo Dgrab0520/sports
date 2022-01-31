@@ -276,6 +276,18 @@ class _MainPageState extends State<MainPage> {
                                       crossAxisAlignment:
                                       CrossAxisAlignment.center,
                                       children: [
+                                        item[index].item_img1 == ''
+                                            ?
+                                        Container(
+                                          width: 200,
+                                          height: 200,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(width: 0.3, color: Colors.grey),
+                                            borderRadius: BorderRadius.circular(10.0)
+                                          ),
+                                          child: Icon(CupertinoIcons.camera_fill, color: Colors.grey,),
+                                        )
+                                            :
                                         Image.asset("assets/img1.png", width: 200, height: 200),
                                         SizedBox(height: 5),
                                         Text(
@@ -337,8 +349,17 @@ class _MainPageState extends State<MainPage> {
               Get.to(SubPage(), arguments: item[index].item_id);
             },
             child: GridTile(
-              child: Image.asset("assets/img1.png", width: 150, height: 150, fit: BoxFit.cover,), // Image.network("https://ahsjung.cafe24.com/item_img/${item[index].item_img1}", width: 150, height: 150),
+              child: item[index].item_img1 == '' ? Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 0.3, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10.0)
+                ),
+                child: Icon(CupertinoIcons.camera_fill, color: Colors.grey,),
+              ) : Image.asset("assets/img1.png", width: 150, height: 150, fit: BoxFit.cover,), // Image.network("https://ahsjung.cafe24.com/item_img/${item[index].item_img1}", width: 150, height: 150),
               footer: GridTileBar(
+
                 backgroundColor: Colors.white,
                 title: Container(
                     margin: EdgeInsets.symmetric(vertical: 2.0),

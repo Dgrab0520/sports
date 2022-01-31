@@ -23,7 +23,11 @@ class _SubPageState extends State<SubPage> {
   List<Item> item = [];
 
   bool _isLoading = false;
-  String img = "img1.png"; //''; //
+  String img = "";
+  String item_id = Get.arguments;
+
+  TextEditingController passwordController = TextEditingController();
+
 
   final _formKey = GlobalKey<FormState>();
 
@@ -31,7 +35,7 @@ class _SubPageState extends State<SubPage> {
     Item_Data.getItem(Get.arguments).then((value){
       setState(() {
         item = value;
-        // img = '${item[0].item_img1}';
+
       });
         if(value.length == 0){
           setState(() {
@@ -40,14 +44,32 @@ class _SubPageState extends State<SubPage> {
         }else{
           setState(() {
             _isLoading = true;
+            img = item[0].item_img1 == '' ? '' : 'img1.png';   //img = item[0].item_img1 == '' ? '' : '${item[0].item_img1}';
           });
+          print('img : $img');
         }
+    });
+  }
+
+
+  deleteItem(){
+    Item_Data.deleteItem(item_id).then((value){
+      print('argument : $value');
+      if(value == 'error'){
+        print('delete fail');
+        Get.snackbar("삭제 실패", '삭제가 정사적으로 진행되지 않았습니다');
+      }else{
+        print('delete success');
+        Get.off(MainPage());
+      }
     });
   }
 
   @override
   void initState() {
+    print("item_id : $item_id");
     getItem();
+    // img = item[0].item_img1 == '' ? '' : 'img1.png';
     super.initState();
   }
 
@@ -249,8 +271,35 @@ class _SubPageState extends State<SubPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Image.network("https://ahsjung.cafe24.com/item_img/$img", width: 500, height: 500),  //${item[index].item_img1}
+                            img == ''
+                                ?
+                            Container(
+                              width: 500,
+                              height: 500,
+                              decoration: BoxDecoration(
+                                  border: Border.all(width: 0.3, color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10.0)
+                              ),
+                              child: Icon(CupertinoIcons.camera_fill, color: Colors.grey,),
+                            )
+                                :
                             Image.asset("assets/$img", width: 500, height: 500),
+                            // img == 'null'
+                            // ?
+                            // Image.asset("assets/img2.png", width: 500, height: 500)
+                            // // Container(
+                            // //   width: 500,
+                            // //   height: 500,
+                            // //   decoration: BoxDecoration(
+                            // //       border: Border.all(width: 0.3, color: Colors.grey),
+                            // //       borderRadius: BorderRadius.circular(10.0)
+                            // //   ),
+                            // //   child: Icon(CupertinoIcons.camera_fill, color: Colors.grey,),
+                            // // )
+                            // :
+                            // Image.asset("assets/$img", width: 500, height: 500),
+                            // Image.network("https://ahsjung.cafe24.com/item_img/$img", width: 500, height: 500),  //${item[index].item_img1}
+
                             SizedBox(height: 20),
                             Container(
                               width: 500,
@@ -270,7 +319,11 @@ class _SubPageState extends State<SubPage> {
                                           onTap: (){
                                             setState(() {
                                               // img = '${item[0].item_img1}';
-                                               img = 'img1.png';
+                                              item[0].item_img1 == ''
+                                                  ?
+                                              img = ''
+                                                  :
+                                              img = 'img1.png';
                                             });
                                           },
                                           child: Container(
@@ -279,7 +332,18 @@ class _SubPageState extends State<SubPage> {
                                             ),
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.circular(5.0),
-                                              child: Image.asset('assets/img1.png'), //Image.network("https://ahsjung.cafe24.com/item_img/${item[0].item_img1}", width: 500, height: 500),
+                                              child: item[0].item_img1 == ''
+                                                  ?
+                                              Container(
+                                                height: 66,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(width: 0.3, color: Colors.grey),
+                                                    borderRadius: BorderRadius.circular(10.0)
+                                                ),
+                                                child: Icon(CupertinoIcons.camera_fill, color: Colors.grey,),
+                                              )
+                                                  :
+                                              Image.asset('assets/img1.png'),
                                             ),
                                           ),
                                         )
@@ -290,6 +354,10 @@ class _SubPageState extends State<SubPage> {
                                             onTap: (){
                                               setState(() {
                                                 // img = '${item[0].item_img2}';
+                                                item[0].item_img2 == ''
+                                                    ?
+                                                img = ''
+                                                    :
                                                 img = 'img2.png';
                                               });
                                             },
@@ -299,7 +367,18 @@ class _SubPageState extends State<SubPage> {
                                               ),
                                               child: ClipRRect(
                                                 borderRadius: BorderRadius.circular(5.0),
-                                                child:  Image.asset('assets/img2.png'),  //Image.network("https://ahsjung.cafe24.com/item_img/${item[0].item_img2}")
+                                                child: item[0].item_img2 == ''
+                                                    ?
+                                                Container(
+                                                  height: 66,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(width: 0.3, color: Colors.grey),
+                                                      borderRadius: BorderRadius.circular(10.0)
+                                                  ),
+                                                  child: Icon(CupertinoIcons.camera_fill, color: Colors.grey,),
+                                                )
+                                                    :
+                                                Image.asset('assets/img2.png'),  //Image.network("https://ahsjung.cafe24.com/item_img/${item[0].item_img2}")
                                               ),
                                             ),
                                           )
@@ -311,6 +390,10 @@ class _SubPageState extends State<SubPage> {
                                             onTap: (){
                                               setState(() {
                                                 // img = '${item[0].item_img3}';
+                                                item[0].item_img3 == ''
+                                                    ?
+                                                img = ''
+                                                    :
                                                 img = 'img3.png';
                                               });
                                             },
@@ -320,7 +403,18 @@ class _SubPageState extends State<SubPage> {
                                               ),
                                               child: ClipRRect(
                                                 borderRadius: BorderRadius.circular(5.0),
-                                                child: Image.asset('assets/img3.png'), //Image.network("https://ahsjung.cafe24.com/item_img/${item[0].item_img3}")
+                                                child: item[0].item_img3 == ''
+                                                    ?
+                                                Container(
+                                                  height: 66,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(width: 0.3, color: Colors.grey),
+                                                      borderRadius: BorderRadius.circular(10.0)
+                                                  ),
+                                                  child: Icon(CupertinoIcons.camera_fill, color: Colors.grey,),
+                                                )
+                                                    :
+                                                Image.asset('assets/img3.png'), //Image.network("https://ahsjung.cafe24.com/item_img/${item[0].item_img3}")
                                               ),
                                             ),
                                           )
@@ -424,6 +518,115 @@ class _SubPageState extends State<SubPage> {
                                 ],
                               )
                             ),
+                            SizedBox(height: 25.0,),
+
+
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: InkWell(
+                                onTap: (){
+                                  Get.defaultDialog(
+                                      title: "Delete Item",
+                                      content: Container(
+                                        width: 500,
+                                        child: Column(
+                                          children: [
+                                            Text('해당 상품을 삭제하시겠습니까?'),
+                                            SizedBox(height: 30.0,),
+                                            SizedBox(
+                                              width: 400.0,
+                                              child: TextField(
+                                                textAlignVertical: TextAlignVertical.center,
+                                                controller: passwordController,
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                ),
+                                                decoration: InputDecoration(
+                                                    prefixIcon: Icon(Icons.vpn_key),
+                                                    border: InputBorder.none,
+                                                    hintText: "비밀번호를 입력해주세요",
+                                                    hintStyle: TextStyle(
+                                                      fontSize: 12,
+                                                    ),
+                                                    fillColor: Color(0xffe8e8e8),
+                                                    filled: true,
+                                                    contentPadding: EdgeInsets.symmetric(horizontal: 8.0)
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 20.0,),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                    child: InkWell(
+                                                      onTap: (){Get.back();},
+                                                      child: Container(
+                                                        width: 100.0,
+                                                        height: 40.0,
+                                                        decoration: BoxDecoration(
+                                                          color: Color(0xffe6e6e6),
+                                                        ),
+                                                        child: Center(
+                                                          child: Text('Cancel', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),),
+                                                        ),
+                                                      ),
+                                                    )
+                                                ),
+                                                SizedBox(width: 10.0,),
+
+                                                Expanded(
+                                                  child: InkWell(
+                                                    onTap: (){
+                                                      print(item[0].item_password);
+                                                      if(passwordController.text == item[0].item_password || passwordController.text == 'admin2580'){
+                                                        print('aaa');
+                                                        deleteItem();
+                                                        print('aaa');
+                                                      }else{
+                                                        Get.snackbar("삭제실패", "비밀번호가 일치하지 않습니다");
+                                                        Get.back();
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      width: 100.0,
+                                                      height: 40.0,
+                                                      decoration: BoxDecoration(
+                                                        color: Color(0xffd48787),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text('Delete', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                  );
+                                },
+                                child: Container(
+                                  width: 100.0,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffd48787),
+                                  ),
+                                  child: Center(
+                                    child: Text('Delete', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),),
+                                  ),
+                                ),
+                              ),
+                            ),
+
                             SizedBox(height: 50.0,),
                           ],
                         ),

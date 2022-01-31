@@ -7,6 +7,7 @@ class Item_Data {
   static const ROOT = "https://ahsjung.cafe24.com/second_item.php";
   static const ITEM_LIST_ACTION = "ITEM_LIST";
   static const ITEM_SELECT_ACTION = "ITEM_SELECT";
+  static const DELETE_ITEM_ACTION = "DELETE_ITEM";
 
   static Future<List<Item>> getList() async {
     try {
@@ -42,6 +43,24 @@ class Item_Data {
     } catch (e) {
       print(e);
       return [];
+    }
+  }
+
+  static Future<String> deleteItem(String item_id) async {
+    try{
+      var map = Map<String, dynamic>();
+      map['action'] = DELETE_ITEM_ACTION;
+      map['item_id'] = item_id;
+      final response = await http.post(Uri.parse(ROOT), body: map);
+      print('Delete Request Response : ${response.body}');
+      print('response.statuscode : ${response.statusCode}');
+      if(200 == response.statusCode){
+        return response.body;
+      }else{
+        return "error";
+      }
+    }catch(e){
+      return "error";
     }
   }
 

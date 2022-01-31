@@ -7,6 +7,7 @@ class RacquetRequest_Data{
   static const ROOT = "https://ahsjung.cafe24.com/second_racquet_insert.php";
   static const REQUEST_INSERT_ACTION = "REQUEST_INSERT";
   static const SELECT_REQUEST_ACTION = "SELECT_REQUEST";
+  static const DELETE_REQUEST_ACTION = "DELETE_REQUEST";
 
   static Future<String> insertRequest(String request_id, String request_title, String request_phone, String request_count, String request_contents, String request_password) async {
     try{
@@ -49,6 +50,26 @@ class RacquetRequest_Data{
       return [];
     }
   }
+
+
+  static Future<String> deleterRequest(String request_id) async {
+    try{
+      var map = Map<String, dynamic>();
+      map['action'] = DELETE_REQUEST_ACTION;
+      map['request_id'] = request_id;
+      final response = await http.post(Uri.parse(ROOT), body: map);
+      print('Delete Request Response : ${response.body}');
+      if(200 == response.statusCode){
+        return response.body;
+      }else{
+        return "error";
+      }
+    }catch(e){
+      return "error";
+    }
+  }
+
+
 
   static List<Racquet> parseResponse(String responseBody){
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
