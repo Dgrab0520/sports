@@ -16,17 +16,20 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       getPages: [
         GetPage(
-          name: '/item_sub/:param',
-          page: () => SubPage(),
+          name: '/',
+          page: () => const MainPage(),
         ),
-
+        GetPage(
+          name: '/item_sub/:param',
+          page: () => const SubPage(),
+        ),
       ],
+      initialRoute: "/",
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MainPage(),
     );
   }
 }

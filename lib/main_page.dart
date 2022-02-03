@@ -1,5 +1,3 @@
-import "dart:ui";
-
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +24,10 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   List<Item> item = [];
-  String? selectedValue;
+  String selectedValue = "";
   bool _isLoading = false;
 
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -132,11 +130,11 @@ class _MainPageState extends State<MainPage> {
             ],
           ),
           SizedBox(width: 50),
-          Container(
+          SizedBox(
             width: 120,
             height: 43,
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: DropdownButtonFormField2(
                 decoration: InputDecoration(
                   isDense: true,
@@ -198,175 +196,191 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       body: SafeArea(
-          child: Container(
-              color: Colors.white,
-              padding: EdgeInsets.only(top: 20),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width / 30,
-                        right: MediaQuery.of(context).size.width / 30
+        child: Container(
+          color: Colors.white,
+          padding: EdgeInsets.only(top: 20),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width / 30,
+                    right: MediaQuery.of(context).size.width / 30),
+                color: Colors.white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                        child: InkWell(
+                      onTap: () {
+                        Get.to(MainPage());
+                      },
+                      child: _isLoading
+                          ? Text(
+                              'Boston Sports Second Hand Market',
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            )
+                          : CircularProgressIndicator(),
+                    )),
+                    Expanded(
+                      flex: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          top,
+                        ],
+                      ),
                     ),
-                    color: Colors.white,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                Get.to(MainPage());
-                              },
-                              child: _isLoading
-                                  ? Text(
-                                'Boston Sports Second Hand Market',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              )
-                                  : CircularProgressIndicator(),
-                            )),
-                        Expanded(
-                          flex: 0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              top,
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 200),
-                  Expanded(
-                    flex: 9,
-                    child: MediaQuery.of(context).size.width < 1350 ?
-                      _isLoading
-                        ?
-                          GridView.extent(
+                  ],
+                ),
+              ),
+              SizedBox(height: 200),
+              Expanded(
+                flex: 9,
+                child: MediaQuery.of(context).size.width < 1350
+                    ? _isLoading
+                        ? GridView.extent(
                             primary: false,
                             maxCrossAxisExtent: 300.0,
                             // crossAxisSpacing: 10.0,
                             // mainAxisSpacing: 10.0,
                             children: _buildGridTileList(item.length),
                           )
-                        : Center(child: CircularProgressIndicator(),)
-                        : _isLoading ?
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 30.0),
-                          color: Color(0xFFf0f0f0),
-                          width: 1400.0,
-                          child: GridView.builder(
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 5,
-                              ),
-                              itemCount: item.length,
-                              itemBuilder: (_, int index){
-                                return Align(
-                                  alignment: Alignment.center,
-                                  child: InkWell(
-                                    onTap: () {
-                                      Get.to(SubPage(), arguments: item[index].item_id);
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: [
-                                        item[index].item_img1 == ''
-                                            ?
-                                        Container(
-                                          width: 200,
-                                          height: 200,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(width: 0.3, color: Colors.grey),
-                                            borderRadius: BorderRadius.circular(10.0)
+                        : Center(
+                            child: CircularProgressIndicator(),
+                          )
+                    : _isLoading
+                        ? Container(
+                            padding: EdgeInsets.symmetric(vertical: 30.0),
+                            color: Color(0xFFf0f0f0),
+                            width: 1400.0,
+                            child: GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 5,
+                                ),
+                                itemCount: item.length,
+                                itemBuilder: (_, int index) {
+                                  return Align(
+                                    alignment: Alignment.center,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Get.to(SubPage(),
+                                            arguments: item[index].item_id);
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          item[index].item_img1 == ''
+                                              ? Container(
+                                                  width: 200,
+                                                  height: 200,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 0.3,
+                                                          color: Colors.grey),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0)),
+                                                  child: Icon(
+                                                    CupertinoIcons.camera_fill,
+                                                    color: Colors.grey,
+                                                  ),
+                                                )
+                                              : Image.network(
+                                                  "https://ahsjung.cafe24.com/item_img/${item[index].item_img1}",
+                                                  width: 200,
+                                                  height: 200),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            '${item[index].item_category}',
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.black54,
+                                                fontFamily: 'NanumSquareR'),
                                           ),
-                                          child: Icon(CupertinoIcons.camera_fill, color: Colors.grey,),
-                                        )
-                                            :
-                                        Image.asset("assets/img1.png", width: 200, height: 200),
-                                        SizedBox(height: 5),
-                                        Text(
-                                          '${item[index].item_category}',
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.black54,
-                                              fontFamily: 'NanumSquareR'),
-                                        ),
-                                        SizedBox(height: 3),
-                                        Text('${item[index].item_name}',
-                                          textAlign: TextAlign.center,
-                                          softWrap: false,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black,
-                                              fontFamily: 'NanumSquareB'
+                                          SizedBox(height: 3),
+                                          Text(
+                                            '${item[index].item_name}',
+                                            textAlign: TextAlign.center,
+                                            softWrap: false,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontFamily: 'NanumSquareB'),
                                           ),
-                                        ),
-                                        SizedBox(height: 3),
-                                        Text('${item[index].item_price} 원',
-                                          textAlign: TextAlign.center,
-                                          softWrap: false,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black,
-                                              fontFamily: 'NanumSquareB'
+                                          SizedBox(height: 3),
+                                          Text(
+                                            '${item[index].item_price} 원',
+                                            textAlign: TextAlign.center,
+                                            softWrap: false,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontFamily: 'NanumSquareB'),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }
+                                  );
+                                }),
+                          )
+                        : Center(
+                            child: CircularProgressIndicator(),
                           ),
-                        )
-
-                        : Center(child: CircularProgressIndicator(),),
-                  ),
-                ],
               ),
-            ),
-
+            ],
+          ),
+        ),
       ),
     );
   }
 
-
-  List<Container> _buildGridTileList(int count) =>
-      List.generate(
-        count, (index) => Container(
+  List<Container> _buildGridTileList(int count) => List.generate(
+      count,
+      (index) => Container(
           margin: EdgeInsets.symmetric(horizontal: 10.0),
           child: InkWell(
             onTap: () {
               Get.to(SubPage(), arguments: item[index].item_id);
             },
             child: GridTile(
-              child: item[index].item_img1 == '' ? Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                    border: Border.all(width: 0.3, color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10.0)
-                ),
-                child: Icon(CupertinoIcons.camera_fill, color: Colors.grey,),
-              ) : Image.asset("assets/img1.png", width: 150, height: 150, fit: BoxFit.cover,), // Image.network("https://ahsjung.cafe24.com/item_img/${item[index].item_img1}", width: 150, height: 150),
+              child: item[index].item_img1 == ''
+                  ? Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 0.3, color: Colors.grey),
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Icon(
+                        CupertinoIcons.camera_fill,
+                        color: Colors.grey,
+                      ),
+                    )
+                  : Image.asset(
+                      "assets/img1.png",
+                      width: 150,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    ), // Image.network("https://ahsjung.cafe24.com/item_img/${item[index].item_img1}", width: 150, height: 150),
               footer: GridTileBar(
-
                 backgroundColor: Colors.white,
                 title: Container(
                     margin: EdgeInsets.symmetric(vertical: 2.0),
                     child: Column(
                       children: [
                         Center(
-                          child: Text('${item[index].item_category}',
+                          child: Text(
+                            '${item[index].item_category}',
                             textAlign: TextAlign.center,
                             softWrap: false,
                             overflow: TextOverflow.ellipsis,
@@ -374,13 +388,15 @@ class _MainPageState extends State<MainPage> {
                             style: TextStyle(
                                 fontSize: 10,
                                 color: Colors.black54,
-                                fontFamily: 'NanumSquareR'
-                            ),
+                                fontFamily: 'NanumSquareR'),
                           ),
                         ),
-                        SizedBox(height: 1.0,),
+                        SizedBox(
+                          height: 1.0,
+                        ),
                         Center(
-                          child: Text('${item[index].item_name}',
+                          child: Text(
+                            '${item[index].item_name}',
                             textAlign: TextAlign.center,
                             softWrap: false,
                             overflow: TextOverflow.ellipsis,
@@ -388,31 +404,22 @@ class _MainPageState extends State<MainPage> {
                             style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.black,
-                                fontFamily: 'NanumSquareB'
-                            ),
+                                fontFamily: 'NanumSquareB'),
                           ),
                         ),
                       ],
-                    )
-                ),
+                    )),
                 subtitle: Center(
-                  child: Text('${item[index].item_price} 원',
+                  child: Text(
+                    '${item[index].item_price} 원',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 15,
                         color: Colors.black,
-                        fontFamily: 'NanumSquareR'
-                    ),
+                        fontFamily: 'NanumSquareR'),
                   ),
                 ),
               ),
             ),
-          )
-      )
-
-
-
-
-
-      );
+          )));
 }

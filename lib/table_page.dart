@@ -4,13 +4,13 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:selectable/selectable.dart';
 import 'package:sports/datas/racquet_data.dart';
 import 'package:sports/models/recquet_model.dart';
 import 'package:sports/request_detail.dart';
 import 'package:sports/request_page.dart';
 // import 'package:get/get_table.dart';
 import 'package:sports/writting.dart';
-import 'package:selectable/selectable.dart';
 
 import 'main_page.dart';
 
@@ -27,32 +27,26 @@ class _TablePageState extends State<TablePage> {
   String condition = '';
   bool _isLoading = false;
 
+  final formKey = GlobalKey<FormState>();
+
   List<Racquet> request = [];
 
   TextEditingController passwordController = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
-
-
-
-
-
-
-  getRequest(){
-    RacquetRequest_Data.getRequest(condition).then((value){
+  getRequest() {
+    RacquetRequest_Data.getRequest(condition).then((value) {
       setState(() {
         request = value;
       });
-      if(value.length == 0){
+      if (value.length == 0) {
         setState(() {
           _isLoading = false;
         });
-      }else{
+      } else {
         setState(() {
           _isLoading = true;
         });
       }
-
     });
   }
 
@@ -111,7 +105,7 @@ class _TablePageState extends State<TablePage> {
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(
-                        bottom: 8,  // HERE THE IMPORTANT PART
+                        bottom: 8, // HERE THE IMPORTANT PART
                       ),
                       icon: Padding(
                           padding: EdgeInsets.only(left: 13),
@@ -145,7 +139,7 @@ class _TablePageState extends State<TablePage> {
             width: 120,
             height: 43,
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: DropdownButtonFormField2(
                 decoration: InputDecoration(
                   isDense: true,
@@ -218,7 +212,7 @@ class _TablePageState extends State<TablePage> {
       body: SafeArea(
           child: Container(
         color: Colors.white,
-        padding: EdgeInsets.only(top:20),
+        padding: EdgeInsets.only(top: 20),
         child: Column(
           children: [
             Container(
@@ -230,21 +224,20 @@ class _TablePageState extends State<TablePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                   Expanded(
+                  Expanded(
                       child: InkWell(
-                        onTap:(){
-                          Get.to(MainPage());
-                        },
-                        child: Selectable(
-                          child: Text(
-                            'Boston Sports Second Hand Market',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
+                    onTap: () {
+                      Get.to(MainPage());
+                    },
+                    child: Selectable(
+                      child: Text(
+                        'Boston Sports Second Hand Market',
+                        style: TextStyle(
+                          fontSize: 20,
                         ),
-                      )
-                   ),
+                      ),
+                    ),
+                  )),
                   Expanded(
                     flex: 0,
                     child: Row(
@@ -282,12 +275,13 @@ class _TablePageState extends State<TablePage> {
                             ),
                           ),
                           TextButton(
-                            onPressed: (){
+                            onPressed: () {
                               Get.to(Request_Page());
                             },
                             child: Text(
                               'Request',
-                              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
+                              style: TextStyle(
+                                  fontSize: 18.0, fontWeight: FontWeight.w700),
                             ),
                           )
                         ],
@@ -328,7 +322,6 @@ class _TablePageState extends State<TablePage> {
                                 selectWordOnDoubleTap: true,
                                 child: Center(child: Text('Counts')),
                               ),
-
                             ),
                             Expanded(
                               flex: 2,
@@ -350,133 +343,194 @@ class _TablePageState extends State<TablePage> {
                             ),
                           ),
                         ),
-                        child: _isLoading ? ListView.builder(
-                            itemCount: request.length,
-                            itemBuilder: (_, int index){
-                              return InkWell(
-                                onTap: (){
-                                  Get.defaultDialog(
-                                      title: "Racquet String",
-                                      content: Container(
-                                        width: 500,
-                                        child: Column(
-                                          children: [
-                                            Text('요청서를 확인하시겠습니?'),
-                                            SizedBox(height: 30.0,),
-                                            SizedBox(
-                                              width: 400.0,
-                                              child: TextField(
-                                                textAlignVertical: TextAlignVertical.center,
-                                                controller: passwordController,
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                ),
-                                                decoration: InputDecoration(
-                                                    prefixIcon: Icon(Icons.vpn_key),
-                                                    border: InputBorder.none,
-                                                    hintText: "비밀번호 또는 관리자 인증을 진행해주세요",
-                                                    hintStyle: TextStyle(
-                                                      fontSize: 12,
+                        child: _isLoading
+                            ? ListView.builder(
+                                itemCount: request.length,
+                                itemBuilder: (_, int index) {
+                                  return InkWell(
+                                      onTap: () {
+                                        Get.defaultDialog(
+                                            title: "Racquet String",
+                                            content: Container(
+                                              width: 500,
+                                              child: Column(
+                                                children: [
+                                                  Text('요청서를 확인하시겠습니?'),
+                                                  SizedBox(
+                                                    height: 30.0,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 400.0,
+                                                    child: TextField(
+                                                      textAlignVertical:
+                                                          TextAlignVertical
+                                                              .center,
+                                                      controller:
+                                                          passwordController,
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                      ),
+                                                      decoration:
+                                                          InputDecoration(
+                                                              prefixIcon: Icon(
+                                                                  Icons
+                                                                      .vpn_key),
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              hintText:
+                                                                  "비밀번호 또는 관리자 인증을 진행해주세요",
+                                                              hintStyle:
+                                                                  TextStyle(
+                                                                fontSize: 12,
+                                                              ),
+                                                              fillColor: Color(
+                                                                  0xffe8e8e8),
+                                                              filled: true,
+                                                              contentPadding:
+                                                                  EdgeInsets.symmetric(
+                                                                      horizontal:
+                                                                          8.0)),
                                                     ),
-                                                    fillColor: Color(0xffe8e8e8),
-                                                    filled: true,
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 8.0)
-                                                ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 20.0,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(),
+                                                      ),
+                                                      Expanded(
+                                                          child: InkWell(
+                                                        onTap: () {
+                                                          Get.back();
+                                                        },
+                                                        child: Container(
+                                                          width: 100.0,
+                                                          height: 40.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Color(
+                                                                0xffe6e6e6),
+                                                          ),
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Cancel',
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )),
+                                                      SizedBox(
+                                                        width: 10.0,
+                                                      ),
+                                                      Expanded(
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            print('aaa');
+                                                            if (passwordController
+                                                                        .text ==
+                                                                    request[index]
+                                                                        .request_password ||
+                                                                passwordController
+                                                                        .text ==
+                                                                    'admin2580') {
+                                                              print('aaaa');
+                                                              Get.to(
+                                                                  () =>
+                                                                      DetailPage(),
+                                                                  arguments:
+                                                                      '${request[index].request_id}');
+                                                            } else {
+                                                              print('aaaaa');
+                                                              Get.snackbar("실패",
+                                                                  "비밀번호가 일치하지 않습니다");
+                                                              Get.back();
+                                                            }
+                                                          },
+                                                          child: Container(
+                                                            width: 100.0,
+                                                            height: 40.0,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color(
+                                                                  0xffd48787),
+                                                            ),
+                                                            child: Center(
+                                                              child: Text(
+                                                                'Check',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
                                               ),
-                                            ),
-                                            SizedBox(height: 20.0,),
-                                            Row(
+                                            ));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 10.0),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               children: [
                                                 Expanded(
-                                                  child: Container(
+                                                  flex: 4,
+                                                  child: Text(
+                                                    '${request[index].request_title}',
+                                                    softWrap: false,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 1,
                                                   ),
                                                 ),
                                                 Expanded(
-                                                  child: InkWell(
-                                                    onTap: (){Get.back();},
-                                                    child: Container(
-                                                      width: 100.0,
-                                                      height: 40.0,
-                                                      decoration: BoxDecoration(
-                                                        color: Color(0xffe6e6e6),
-                                                      ),
-                                                      child: Center(
-                                                        child: Text('Cancel', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ),
-                                                SizedBox(width: 10.0,),
-
-                                                Expanded(
-                                                  child: InkWell(
-                                                    onTap: (){
-                                                      print('aaa');
-                                                      if(passwordController.text == request[index].request_password || passwordController.text == 'admin2580'){
-                                                        print('aaaa');
-                                                        Get.to(() => DetailPage(), arguments: '${request[index].request_id}');
-                                                      }else{
-                                                        print('aaaaa');
-                                                        Get.snackbar("실패", "비밀번호가 일치하지 않습니다");
-                                                        Get.back();
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                      width: 100.0,
-                                                      height: 40.0,
-                                                      decoration: BoxDecoration(
-                                                        color: Color(0xffd48787),
-                                                      ),
-                                                      child: Center(
-                                                        child: Text('Check', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),),
-                                                      ),
-                                                    ),
-                                                  ),
+                                                  flex: 3,
+                                                  child: Center(
+                                                      child: Text(
+                                                          '${request[index].request_count}')),
                                                 ),
                                                 Expanded(
-                                                  child: Container(
-                                                  ),
+                                                  flex: 2,
+                                                  child: Center(
+                                                      child: Text(
+                                                          '${request[index].request_date}'
+                                                              .split(" ")[0])),
                                                 ),
                                               ],
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                  );
-                                },
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.symmetric(vertical: 10.0),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            flex: 4,
-                                            child: Text('${request[index].request_title}', softWrap: false, overflow: TextOverflow.ellipsis, maxLines: 1,),
+                                            ),
                                           ),
-                                          Expanded(
-                                            flex: 3,
-                                            child: Center(child: Text('${request[index].request_count}')),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: Center(child: Text('${request[index].request_date}'.split(" ")[0])),
-                                          ),
+                                          Divider(
+                                            height: 0.1,
+                                            thickness: 0.6,
+                                            color: Color(0xFFe6e6e6),
+                                          )
                                         ],
-                                      ),
-                                    ),
-                                    Divider(
-                                      height: 0.1,
-                                      thickness: 0.6,
-                                      color: Color(0xFFe6e6e6),
-                                    )
-                                  ],
-                                )
-                              );
-                            }
-                        ) : Center(child: Text('요청이 없습니다'),),
-
+                                      ));
+                                })
+                            : Center(
+                                child: Text('요청이 없습니다'),
+                              ),
                       ),
                     ],
                   ),

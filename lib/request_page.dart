@@ -5,22 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sports/datas/racquet_data.dart';
 import 'package:sports/main_page.dart';
-import 'package:sports/models/recquet_model.dart';
 import 'package:sports/table_page.dart';
 import 'package:sports/writting.dart';
 
-class Request_Page extends StatefulWidget{
+class Request_Page extends StatefulWidget {
   @override
   _Request_PageState createState() => _Request_PageState();
 }
 
-class _Request_PageState extends State<Request_Page>{
-
-  final _formKey = GlobalKey<FormState>();
-
+class _Request_PageState extends State<Request_Page> {
   String? selectedValue;
   String request_id = '';
 
+  final formKey = GlobalKey<FormState>();
 
   TextEditingController titleController = TextEditingController();
   TextEditingController countController = TextEditingController();
@@ -28,22 +25,27 @@ class _Request_PageState extends State<Request_Page>{
   TextEditingController contentController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  
-  insertRequest(){
-    RacquetRequest_Data.insertRequest(request_id, titleController.text, phoneController.text, countController.text, contentController.text, passwordController.text).then((value){
-      if(value == 'success'){
+  insertRequest() {
+    RacquetRequest_Data.insertRequest(
+            request_id,
+            titleController.text,
+            phoneController.text,
+            countController.text,
+            contentController.text,
+            passwordController.text)
+        .then((value) {
+      if (value == 'success') {
         print('insert request success');
         Get.off(TablePage());
-      }else{
+      } else {
         print('insert request fail');
         Get.snackbar("Request Fail", 'Request Fail. Retry please');
       }
     });
   }
 
-
   @override
-  void initState(){
+  void initState() {
     request_id = generateRandomString(8);
     print(request_id);
     super.initState();
@@ -51,11 +53,11 @@ class _Request_PageState extends State<Request_Page>{
 
   String generateRandomString(int len) {
     var r = Random();
-    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)]).join();
+    const _chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
+        .join();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +140,7 @@ class _Request_PageState extends State<Request_Page>{
             width: 120,
             height: 43,
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: DropdownButtonFormField2(
                 decoration: InputDecoration(
                   isDense: true,
@@ -170,14 +172,14 @@ class _Request_PageState extends State<Request_Page>{
                 ),
                 items: map
                     .map((item) => DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(
-                    item,
-                    style: const TextStyle(
-                      fontSize: 13,
-                    ),
-                  ),
-                ))
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 13,
+                            ),
+                          ),
+                        ))
                     .toList(),
                 validator: (value) {
                   if (value == null) {
@@ -206,275 +208,273 @@ class _Request_PageState extends State<Request_Page>{
     return Scaffold(
       body: SafeArea(
           child: Container(
-            color: Colors.white,
-            padding: EdgeInsets.only(top: 20),
-            child: Column(
-              children: [
-                Container(
+        color: Colors.white,
+        padding: EdgeInsets.only(top: 20),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width / 30,
+                  right: MediaQuery.of(context).size.width / 30),
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                      child: InkWell(
+                    onTap: () {
+                      Get.off(MainPage());
+                    },
+                    child: Text(
+                      'Boston Sports Second Hand Market',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  )),
+                  Expanded(
+                    flex: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        top,
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 9,
+              child: SingleChildScrollView(
+                child: Container(
+                  width: 1300,
                   padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 30,
-                      right: MediaQuery.of(context).size.width / 30),
-                  color: Colors.white,
-                  child: Row(
+                    left: 300,
+                    right: 300,
+                    top: 200,
+                  ),
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              Get.off(MainPage());
-                            },
-                            child: Text(
-                              'Boston Sports Second Hand Market',
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
-                          )),
-                      Expanded(
-                        flex: 0,
+                      SizedBox(
+                        width: Get.width,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            top,
+                            Text(
+                              'Rqcquet String Request',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'NanumSquareB',
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 9,
-                  child: SingleChildScrollView(
-                    child: Container(
-                      width: 1300,
-                      padding: EdgeInsets.only(
-                        left: 300,
-                        right: 300,
-                        top: 200,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: Get.width,
-                            child: Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Rqcquet String Request',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: 'NanumSquareB',
-                                  ),
-                                ),
-                              ],
-                            ),
+                      SizedBox(height: 70),
+                      Container(
+                        width: Get.width,
+                        child: TextField(
+                          maxLength: 30,
+                          controller: titleController,
+                          style: TextStyle(
+                            fontSize: 15,
                           ),
-                          SizedBox(height: 70),
-                          Container(
-                            width: Get.width,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "제목을 입력해주세요",
+                              hintStyle: TextStyle(
+                                fontSize: 12,
+                              ),
+                              fillColor: Color(0xffe8e8e8),
+                              filled: true,
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 8.0)),
+                        ),
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 4,
                             child: TextField(
-                              maxLength: 30,
-                              controller: titleController,
+                              controller: phoneController,
                               style: TextStyle(
                                 fontSize: 15,
                               ),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: "제목을 입력해주세요",
+                                  hintText: "연락처를 입력해주세요",
                                   hintStyle: TextStyle(
                                     fontSize: 12,
                                   ),
                                   fillColor: Color(0xffe8e8e8),
                                   filled: true,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 8.0)
-                              ),
+                                  contentPadding:
+                                      EdgeInsets.symmetric(horizontal: 8.0)),
                             ),
                           ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: TextField(
-                                  controller: phoneController,
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                  ),
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: "연락처를 입력해주세요",
-                                      hintStyle: TextStyle(
-                                        fontSize: 12,
-                                      ),
-                                      fillColor: Color(0xffe8e8e8),
-                                      filled: true,
-                                      contentPadding: EdgeInsets.symmetric(horizontal: 8.0)
-                                  ),
-                                ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Expanded(
+                            flex: 4,
+                            child: TextField(
+                              controller: countController,
+                              style: TextStyle(
+                                fontSize: 15,
                               ),
-                              SizedBox(width: 10.0,),
-                              Expanded(
-                                flex: 4,
-                                child: TextField(
-                                  controller: countController,
-                                  style: TextStyle(
-                                    fontSize: 15,
+                              decoration: InputDecoration(
+                                  suffix: Text(
+                                    '1 Racquet = 15USD',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
-                                  decoration: InputDecoration(
-                                    suffix: Text('1 Racquet = 15USD', style: TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                    ),
+                                  border: InputBorder.none,
+                                  hintText: "라켓 수량을 입력해주세요",
+                                  hintStyle: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                  fillColor: Color(0xffe8e8e8),
+                                  filled: true,
+                                  contentPadding:
+                                      EdgeInsets.symmetric(horizontal: 8.0)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      Container(
+                        padding: EdgeInsets.only(left: 15, bottom: 10),
+                        width: Get.width,
+                        height: 400,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFF9F9F9),
+                          border: Border.all(
+                            width: 1.0,
+                            color: Color(0xFFcccccc),
+                          ),
+                        ),
+                        child: TextField(
+                          controller: contentController,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          onChanged: (text) {},
+                          decoration: InputDecoration(
+                            hintText: '라켓 종류, 사이즈 등 상세한 내용을 입력해주세요',
+                            hintStyle: TextStyle(
+                              fontSize: 13,
+                            ),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              child: TextField(
+                                textAlignVertical: TextAlignVertical.center,
+                                controller: passwordController,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                ),
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.vpn_key),
                                     border: InputBorder.none,
-                                    hintText: "라켓 수량을 입력해주세요",
+                                    hintText: "비밀번호를 설정해주세요(6글자)",
                                     hintStyle: TextStyle(
                                       fontSize: 12,
                                     ),
                                     fillColor: Color(0xffe8e8e8),
                                     filled: true,
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 8.0)
-                                  ),
-                                ),
-                              ),
-
-                            ],
-                          ),
-
-
-                          SizedBox(height: 30),
-                          Container(
-                            padding: EdgeInsets.only(left: 15, bottom: 10),
-                            width: Get.width,
-                            height: 400,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFF9F9F9),
-                              border: Border.all(
-                                width: 1.0,
-                                color: Color(0xFFcccccc),
-                              ),
-                            ),
-                            child: TextField(
-                              controller: contentController,
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              onChanged: (text) {},
-                              decoration: InputDecoration(
-                                hintText: '라켓 종류, 사이즈 등 상세한 내용을 입력해주세요',
-                                hintStyle: TextStyle(
-                                  fontSize: 13,
-                                ),
-                                border: InputBorder.none,
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 8.0)),
                               ),
                             ),
                           ),
-                          SizedBox(height: 30),
-
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  child: TextField(
-                                    textAlignVertical: TextAlignVertical.center,
-                                    controller: passwordController,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                    decoration: InputDecoration(
-                                        prefixIcon: Icon(Icons.vpn_key),
-                                        border: InputBorder.none,
-                                        hintText: "비밀번호를 설정해주세요(6글자)",
-                                        hintStyle: TextStyle(
-                                          fontSize: 12,
+                          Expanded(
+                            flex: 1,
+                            child: SizedBox(
+                              width: Get.width,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Get.back();
+                                    },
+                                    child: Container(
+                                      width: 90,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '취소',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
                                         ),
-                                        fillColor: Color(0xffe8e8e8),
-                                        filled: true,
-                                        contentPadding: EdgeInsets.symmetric(horizontal: 8.0)
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      if (titleController.text != '' &&
+                                          contentController.text != '' &&
+                                          passwordController.text != '' &&
+                                          phoneController.text != '' &&
+                                          countController.text != '') {
+                                        insertRequest();
+                                      } else {
+                                        Get.snackbar(
+                                            '요청 실패', '입력되지 않은 항목이 있습니다');
+                                      }
+                                    },
+                                    child: Container(
+                                      width: 90,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Color(0xFF025595),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '등록',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: SizedBox(
-                                  width: Get.width,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {Get.back();},
-                                        child: Container(
-                                          width: 90,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(5),
-                                            color: Color(0xFFD9D9D9),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              '취소',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 10),
-                                      InkWell(
-                                        onTap: () {
-                                          if(titleController.text != '' && contentController.text != '' &&  passwordController.text != '' &&  phoneController.text != '' &&  countController.text != ''){
-                                            insertRequest();
-                                          }else{
-                                            Get.snackbar('요청 실패', '입력되지 않은 항목이 있습니다');
-                                          }
-
-                                        },
-                                        child: Container(
-                                          width: 90,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(5),
-                                            color: Color(0xFF025595),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              '등록',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-
-
-
-
-                          SizedBox(height: 100.0,)
-
+                            ),
+                          )
                         ],
                       ),
-                    ),
+                      SizedBox(
+                        height: 100.0,
+                      )
+                    ],
                   ),
-
-
                 ),
-              ],
+              ),
             ),
-          )),
+          ],
+        ),
+      )),
     );
   }
 }
