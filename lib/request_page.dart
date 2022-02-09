@@ -84,11 +84,14 @@ class _Request_PageState extends State<Request_Page> {
       );
     } else {
       top = Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
+                alignment: Alignment.center,
                 margin: EdgeInsets.only(left: 15, right: 15),
                 width: 350,
                 height: 43,
@@ -116,7 +119,7 @@ class _Request_PageState extends State<Request_Page> {
               InkWell(
                 onTap: () {},
                 child: Container(
-                  width: 70,
+                  width: 85,
                   height: 43,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -127,78 +130,39 @@ class _Request_PageState extends State<Request_Page> {
                       'search',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 19,
+                        fontFamily: 'NanumSquareB',
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(width: 50),
-          Container(
-            width: 120,
-            height: 43,
-            child: Form(
-              key: formKey,
-              child: DropdownButtonFormField2(
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
+              SizedBox(width: 50.0,),
+              InkWell(
+                onTap: (){
+                  Get.to(TablePage());
+                },
+                child: Container(
+                  padding: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 2.0, color: Color(0xFF537364)),
+                      borderRadius: BorderRadius.circular(5.0)
                   ),
-                  //Add more decoration as you want here
-                  //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                  child: Row(
+                    children: [
+                      Icon(Icons.sports_tennis, color: Color(0xFF537364)),
+                      Text('Restring Service', style: TextStyle(
+                        color: Color(0xFF537364),
+                        fontSize: 19,
+                        fontFamily: 'NanumSquareEB',
+                      ),)
+                    ],
+                  ),
                 ),
-                isExpanded: true,
-                hint: Row(
-                  children: [
-                    Text(
-                      '글쓰기',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ],
-                ),
-                icon: const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-                buttonHeight: 45,
-                buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                items: map
-                    .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 13,
-                            ),
-                          ),
-                        ))
-                    .toList(),
-                validator: (value) {
-                  if (value == null) {
-                    return '지역을 골라주세요.';
-                  }
-                },
-                onChanged: (value) {
-                  if (value == "글쓰기") {
-                    Get.off(WritingPage());
-                  } else if (value == "구독정보") {
-                    Get.off(TablePage());
-                  }
-                  //Do something when changing the item if you want.
-                },
-                onSaved: (value) {
-                  selectedValue = value.toString();
-                },
-              ),
-            ),
+              )
+
+
+            ],
           ),
         ],
       );
@@ -227,11 +191,12 @@ class _Request_PageState extends State<Request_Page> {
                       Get.off(MainPage());
                     },
                     child: Text(
-                      'Boston Sports Second Hand Market',
+                      'Boston Sports Secondhands Market',
                       style: TextStyle(
-                        fontSize: 20,
+                          fontSize: 30,
+                          fontFamily: 'NanumSquareEB'
                       ),
-                    ),
+                    )
                   )),
                   Expanded(
                     flex: 0,
@@ -265,7 +230,7 @@ class _Request_PageState extends State<Request_Page> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Rqcquet String Request',
+                              'Restring Service Request',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: 'NanumSquareB',
@@ -285,7 +250,7 @@ class _Request_PageState extends State<Request_Page> {
                           ),
                           decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "제목을 입력해주세요",
+                              hintText: "Title",
                               hintStyle: TextStyle(
                                 fontSize: 12,
                               ),
@@ -307,7 +272,7 @@ class _Request_PageState extends State<Request_Page> {
                               ),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: "연락처를 입력해주세요",
+                                  hintText: "Phone Number",
                                   hintStyle: TextStyle(
                                     fontSize: 12,
                                   ),
@@ -334,7 +299,7 @@ class _Request_PageState extends State<Request_Page> {
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   border: InputBorder.none,
-                                  hintText: "라켓 수량을 입력해주세요",
+                                  hintText: "# of Rackets",
                                   hintStyle: TextStyle(
                                     fontSize: 12,
                                   ),
@@ -364,7 +329,7 @@ class _Request_PageState extends State<Request_Page> {
                           maxLines: null,
                           onChanged: (text) {},
                           decoration: InputDecoration(
-                            hintText: '라켓 종류, 사이즈 등 상세한 내용을 입력해주세요',
+                            hintText: 'Request details',
                             hintStyle: TextStyle(
                               fontSize: 13,
                             ),
@@ -387,7 +352,7 @@ class _Request_PageState extends State<Request_Page> {
                                 decoration: InputDecoration(
                                     prefixIcon: Icon(Icons.vpn_key),
                                     border: InputBorder.none,
-                                    hintText: "비밀번호를 설정해주세요(6글자)",
+                                    hintText: "passwords",
                                     hintStyle: TextStyle(
                                       fontSize: 12,
                                     ),
@@ -418,7 +383,7 @@ class _Request_PageState extends State<Request_Page> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          '취소',
+                                          'Cancel',
                                           style: TextStyle(
                                             fontSize: 16,
                                           ),
@@ -437,7 +402,7 @@ class _Request_PageState extends State<Request_Page> {
                                         insertRequest();
                                       } else {
                                         Get.snackbar(
-                                            '요청 실패', '입력되지 않은 항목이 있습니다');
+                                            'Fail', 'empty!!');
                                       }
                                     },
                                     child: Container(
@@ -449,7 +414,7 @@ class _Request_PageState extends State<Request_Page> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          '등록',
+                                          'Done',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 16,

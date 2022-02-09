@@ -22,7 +22,7 @@ class WritingPage extends StatefulWidget {
 
 class _WritingPageState extends State<WritingPage> {
   String? selectedValue;
-  String _selectedValue = '카테고리를 선택하세요';
+  String _selectedValue = 'Categories';
   String item_id = "";
   String img_no = '';
 
@@ -59,9 +59,9 @@ class _WritingPageState extends State<WritingPage> {
     ).then((value) {
       if (value == 'success') {
         print('Item Register Success');
-        Get.back();
+        Get.offAll(MainPage());
       } else {
-        Get.snackbar("상품 등록 실패", '상품 등록에 실패하였습니다');
+        Get.snackbar("Fail", 'Check your network');
       }
     });
   }
@@ -162,11 +162,14 @@ class _WritingPageState extends State<WritingPage> {
       );
     } else {
       top = Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
+                alignment: Alignment.center,
                 margin: EdgeInsets.only(left: 15, right: 15),
                 width: 350,
                 height: 43,
@@ -194,7 +197,7 @@ class _WritingPageState extends State<WritingPage> {
               InkWell(
                 onTap: () {},
                 child: Container(
-                  width: 70,
+                  width: 85,
                   height: 43,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -205,78 +208,39 @@ class _WritingPageState extends State<WritingPage> {
                       'search',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 19,
+                        fontFamily: 'NanumSquareB',
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(width: 50),
-          Container(
-            width: 120,
-            height: 43,
-            child: Form(
-              key: formKey,
-              child: DropdownButtonFormField2(
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
+              SizedBox(width: 50.0,),
+              InkWell(
+                onTap: (){
+                  Get.to(TablePage());
+                },
+                child: Container(
+                  padding: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 2.0, color: Color(0xFF537364)),
+                      borderRadius: BorderRadius.circular(5.0)
                   ),
-                  //Add more decoration as you want here
-                  //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                  child: Row(
+                    children: [
+                      Icon(Icons.sports_tennis, color: Color(0xFF537364)),
+                      Text('Restring Service', style: TextStyle(
+                        color: Color(0xFF537364),
+                        fontSize: 19,
+                        fontFamily: 'NanumSquareEB',
+                      ),)
+                    ],
+                  ),
                 ),
-                isExpanded: true,
-                hint: Row(
-                  children: [
-                    Text(
-                      '글쓰기',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ],
-                ),
-                icon: const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-                buttonHeight: 45,
-                buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                items: map
-                    .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 13,
-                            ),
-                          ),
-                        ))
-                    .toList(),
-                validator: (value) {
-                  if (value == null) {
-                    return '지역을 골라주세요.';
-                  }
-                },
-                onChanged: (value) {
-                  if (value == "글쓰기") {
-                    Get.to(WritingPage());
-                  } else if (value == "구독정보") {
-                    Get.to(TablePage());
-                  }
-                  //Do something when changing the item if you want.
-                },
-                onSaved: (value) {
-                  selectedValue = value.toString();
-                },
-              ),
-            ),
+              )
+
+
+            ],
           ),
         ],
       );
@@ -304,11 +268,12 @@ class _WritingPageState extends State<WritingPage> {
                       Get.to(MainPage());
                     },
                     child: Text(
-                      'Boston Sports Second Hand Market',
+                      'Boston Sports Secondhands Market',
                       style: TextStyle(
-                        fontSize: 20,
+                          fontSize: 30,
+                          fontFamily: 'NanumSquareEB'
                       ),
-                    ),
+                    )
                   )),
                   Expanded(
                     flex: 0,
@@ -341,7 +306,7 @@ class _WritingPageState extends State<WritingPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '상품 등록하기',
+                              'Post Item',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: 'NanumSquareB',
@@ -364,7 +329,7 @@ class _WritingPageState extends State<WritingPage> {
                               ),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: "상품명을 입력해주세요",
+                                  hintText: "Please enter product name",
                                   hintStyle: TextStyle(
                                     fontSize: 12,
                                   ),
@@ -388,34 +353,23 @@ class _WritingPageState extends State<WritingPage> {
                                   print(_selectedValue);
                                 },
                                 items: <String>[
-                                  '카테고리를 선택하세요',
-                                  '여성의류',
-                                  '남성의류',
-                                  '신발',
-                                  '가방',
-                                  '시계/쥬얼리',
-                                  '악세사리',
-                                  '디지털',
-                                  '가전',
-                                  '스포츠/레저',
-                                  '굿즈',
-                                  '키덜트',
-                                  '예술작품/수집품',
-                                  '음반/악기',
-                                  '도서/티켓/문구',
-                                  '뷰티/미용',
-                                  '가구/인테리어',
-                                  '생활/가공식품',
-                                  '유아동/출산',
-                                  '반려동물',
-                                  '기타'
+                                  'Categories',
+                                  'Bikes & Cycling',
+                                  'Camping',
+                                  'Fitness',
+                                  'Winter Sports',
+                                  'Racket Sports ',
+                                  'Golf',
+                                  'Water Sports',
+                                  'Running',
+                                  'Fishing',
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(
                                       '$value',
                                       style: TextStyle(
-                                          fontSize: 10.0, color: Colors.grey),
+                                          fontSize: 12.0, color: Colors.grey),
                                     ),
                                   );
                                 }).toList(),
@@ -440,7 +394,7 @@ class _WritingPageState extends State<WritingPage> {
                                     prefixIcon:
                                         Icon(CupertinoIcons.money_dollar),
                                     border: InputBorder.none,
-                                    hintText: "상품 가격을 입력해주세요",
+                                    hintText: "Price",
                                     hintStyle: TextStyle(
                                       fontSize: 12,
                                     ),
@@ -466,7 +420,7 @@ class _WritingPageState extends State<WritingPage> {
                                 decoration: InputDecoration(
                                     prefixIcon: Icon(CupertinoIcons.home),
                                     border: InputBorder.none,
-                                    hintText: "판매 지역을 입력해주세요",
+                                    hintText: "Location",
                                     hintStyle: TextStyle(
                                       fontSize: 12,
                                     ),
@@ -497,7 +451,7 @@ class _WritingPageState extends State<WritingPage> {
                           maxLines: null,
                           onChanged: (text) {},
                           decoration: InputDecoration(
-                            hintText: '상세 내용을 입력해주세요',
+                            hintText: 'Please enter details',
                             hintStyle: TextStyle(
                               fontSize: 13,
                             ),
@@ -507,7 +461,7 @@ class _WritingPageState extends State<WritingPage> {
                       ),
                       SizedBox(height: 30),
                       Text(
-                        '상품 이미지',
+                        'Images',
                         style: TextStyle(
                             fontSize: 16,
                             fontFamily: 'NanumSquareR',
@@ -564,7 +518,7 @@ class _WritingPageState extends State<WritingPage> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      '파일열기',
+                                      'Upload',
                                       style: TextStyle(
                                         fontSize: 16,
                                       ),
@@ -627,7 +581,7 @@ class _WritingPageState extends State<WritingPage> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      '파일열기',
+                                      'Upload',
                                       style: TextStyle(
                                         fontSize: 16,
                                       ),
@@ -690,7 +644,7 @@ class _WritingPageState extends State<WritingPage> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      '파일열기',
+                                      'Upload',
                                       style: TextStyle(
                                         fontSize: 16,
                                       ),
@@ -717,7 +671,7 @@ class _WritingPageState extends State<WritingPage> {
                                 decoration: InputDecoration(
                                     prefixIcon: Icon(Icons.vpn_key),
                                     border: InputBorder.none,
-                                    hintText: "비밀번호를 설정해주세요",
+                                    hintText: "Passwords",
                                     hintStyle: TextStyle(
                                       fontSize: 12,
                                     ),
@@ -748,7 +702,7 @@ class _WritingPageState extends State<WritingPage> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          '취소',
+                                          'Cancel',
                                           style: TextStyle(
                                             fontSize: 16,
                                           ),
@@ -763,12 +717,12 @@ class _WritingPageState extends State<WritingPage> {
                                           priceController.text != '' &&
                                           addressController.text != '' &&
                                           contentController.text != '' &&
-                                          _selectedValue != '카테고리를 선택하세요' &&
+                                          _selectedValue != 'Categories' &&
                                           passwordController.text != '') {
                                         InsertItem();
                                       } else {
                                         Get.snackbar(
-                                            '상품 등록 실패', '입력되지 않은 항목이 있습니다');
+                                            'Fail', 'Empty!');
                                       }
                                     },
                                     child: Container(
@@ -780,7 +734,7 @@ class _WritingPageState extends State<WritingPage> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          '등록',
+                                          'Done',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 16,

@@ -93,6 +93,9 @@ flutter:
     - family: NanumSquareEB
       fonts:
         - asset: assets/font/NanumSquareEB.ttf
+    - family: NotoSansB
+      fonts:
+        - asset: assets/font/NotoSansKR-Bold.otf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

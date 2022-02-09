@@ -83,11 +83,14 @@ class _TablePageState extends State<TablePage> {
       );
     } else {
       top = Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
+                alignment: Alignment.center,
                 margin: EdgeInsets.only(left: 15, right: 15),
                 width: 350,
                 height: 43,
@@ -115,7 +118,7 @@ class _TablePageState extends State<TablePage> {
               InkWell(
                 onTap: () {},
                 child: Container(
-                  width: 70,
+                  width: 85,
                   height: 43,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -126,82 +129,39 @@ class _TablePageState extends State<TablePage> {
                       'search',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 19,
+                        fontFamily: 'NanumSquareB',
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(width: 50),
-          Container(
-            width: 120,
-            height: 43,
-            child: Form(
-              key: formKey,
-              child: DropdownButtonFormField2(
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
+              SizedBox(width: 50.0,),
+              InkWell(
+                onTap: (){
+                  Get.to(TablePage());
+                },
+                child: Container(
+                  padding: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 2.0, color: Color(0xFF537364)),
+                      borderRadius: BorderRadius.circular(5.0)
                   ),
-                  //Add more decoration as you want here
-                  //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                  child: Row(
+                    children: [
+                      Icon(Icons.sports_tennis, color: Color(0xFF537364)),
+                      Text('Restring Service', style: TextStyle(
+                        color: Color(0xFF537364),
+                        fontSize: 19,
+                        fontFamily: 'NanumSquareEB',
+                      ),)
+                    ],
+                  ),
                 ),
-                isExpanded: true,
-                hint: Row(
-                  children: [
-                    Text(
-                      'Racquet',
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ],
-                ),
-                icon: const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-                buttonHeight: 45,
-                buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                items: map
-                    .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 13,
-                            ),
-                          ),
-                        ))
-                    .toList(),
-                validator: (value) {
-                  if (value == null) {
-                    return '지역을 골라주세요.';
-                  }
-                },
-                onChanged: (value) {
-                  print(value);
-                  if (value == "글쓰기") {
-                    Get.to(const WritingPage());
-                  } else if (value == "Racquet String") {
-                    Get.to(const TablePage());
-                  }
-                  //Do something when changing the item if you want.
-                },
-                onSaved: (value) {
-                  selectedValue = value.toString();
-                },
-              ),
-            ),
+              )
+
+
+            ],
           ),
         ],
       );
@@ -231,11 +191,12 @@ class _TablePageState extends State<TablePage> {
                     },
                     child: Selectable(
                       child: Text(
-                        'Boston Sports Second Hand Market',
+                        'Boston Sports Secondhands Market',
                         style: TextStyle(
-                          fontSize: 20,
+                            fontSize: 30,
+                            fontFamily: 'NanumSquareEB'
                         ),
-                      ),
+                      )
                     ),
                   )),
                   Expanded(
@@ -268,7 +229,7 @@ class _TablePageState extends State<TablePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Racquet String Request List',
+                            'Restring Service Request List',
                             style: TextStyle(
                               fontSize: 20,
                               fontFamily: 'NanumSquareB',
@@ -355,7 +316,7 @@ class _TablePageState extends State<TablePage> {
                                               width: 500,
                                               child: Column(
                                                 children: [
-                                                  Text('요청서를 확인하시겠습니?'),
+                                                  Text('Would you like to confirm your request?'),
                                                   SizedBox(
                                                     height: 30.0,
                                                   ),
@@ -379,7 +340,7 @@ class _TablePageState extends State<TablePage> {
                                                                   InputBorder
                                                                       .none,
                                                               hintText:
-                                                                  "비밀번호 또는 관리자 인증을 진행해주세요",
+                                                                  "Enter your passwords or admin passwords",
                                                               hintStyle:
                                                                   TextStyle(
                                                                 fontSize: 12,

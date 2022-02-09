@@ -89,11 +89,14 @@ class _DetailPage_State extends State<DetailPage> {
       );
     } else {
       top = Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
+                alignment: Alignment.center,
                 margin: EdgeInsets.only(left: 15, right: 15),
                 width: 350,
                 height: 43,
@@ -121,7 +124,7 @@ class _DetailPage_State extends State<DetailPage> {
               InkWell(
                 onTap: () {},
                 child: Container(
-                  width: 70,
+                  width: 85,
                   height: 43,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -132,78 +135,39 @@ class _DetailPage_State extends State<DetailPage> {
                       'search',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 19,
+                        fontFamily: 'NanumSquareB',
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(width: 50),
-          Container(
-            width: 120,
-            height: 43,
-            child: Form(
-              key: formKey,
-              child: DropdownButtonFormField2(
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
+              SizedBox(width: 50.0,),
+              InkWell(
+                onTap: (){
+                  Get.to(const TablePage());
+                },
+                child: Container(
+                  padding: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 2.0, color: Color(0xFF537364)),
+                      borderRadius: BorderRadius.circular(5.0)
                   ),
-                  //Add more decoration as you want here
-                  //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                  child: Row(
+                    children: [
+                      Icon(Icons.sports_tennis, color: Color(0xFF537364)),
+                      Text('Restring Service', style: TextStyle(
+                        color: Color(0xFF537364),
+                        fontSize: 19,
+                        fontFamily: 'NanumSquareEB',
+                      ),)
+                    ],
+                  ),
                 ),
-                isExpanded: true,
-                hint: Row(
-                  children: [
-                    Text(
-                      '글쓰기',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ],
-                ),
-                icon: const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-                buttonHeight: 45,
-                buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                items: map
-                    .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 13,
-                            ),
-                          ),
-                        ))
-                    .toList(),
-                validator: (value) {
-                  if (value == null) {
-                    return '지역을 골라주세요.';
-                  }
-                },
-                onChanged: (value) {
-                  if (value == "글쓰기") {
-                    Get.to(WritingPage());
-                  } else if (value == "구독정보") {
-                    Get.to(TablePage());
-                  }
-                  //Do something when changing the item if you want.
-                },
-                onSaved: (value) {
-                  selectedValue = value.toString();
-                },
-              ),
-            ),
+              )
+
+
+            ],
           ),
         ],
       );
@@ -232,11 +196,12 @@ class _DetailPage_State extends State<DetailPage> {
                       Get.to(MainPage());
                     },
                     child: Text(
-                      'Boston Sports Second Hand Market',
+                      'Boston Sports Secondhands Market',
                       style: TextStyle(
-                        fontSize: 20,
+                          fontSize: 30,
+                          fontFamily: 'NanumSquareEB'
                       ),
-                    ),
+                    )
                   )),
                   Expanded(
                     flex: 0,

@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sports/me_page.dart';
 import 'package:sports/models/item_model.dart';
 import 'package:sports/sub_page.dart';
 import 'package:sports/table_page.dart';
@@ -77,9 +78,11 @@ class _MainPageState extends State<MainPage> {
       );
     } else {
       top = Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 alignment: Alignment.center,
@@ -110,7 +113,7 @@ class _MainPageState extends State<MainPage> {
               InkWell(
                 onTap: () {},
                 child: Container(
-                  width: 70,
+                  width: 85,
                   height: 43,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -121,74 +124,39 @@ class _MainPageState extends State<MainPage> {
                       'search',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 19,
+                        fontFamily: 'NanumSquareB',
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(width: 50),
-          SizedBox(
-            width: 120,
-            height: 43,
-            child: Form(
-              key: formKey,
-              child: DropdownButtonFormField2(
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
+              SizedBox(width: 50.0,),
+              InkWell(
+                onTap: (){
+                  Get.to(TablePage());
+                },
+                child: Container(
+                  padding: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 2.0, color: Color(0xFF537364)),
+                      borderRadius: BorderRadius.circular(5.0)
                   ),
-                  //Add more decoration as you want here
-                  //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                  child: Row(
+                    children: [
+                      Icon(Icons.sports_tennis, color: Color(0xFF537364)),
+                      Text('Restring Service', style: TextStyle(
+                        color: Color(0xFF537364),
+                        fontSize: 19,
+                        fontFamily: 'NanumSquareEB',
+                      ),)
+                    ],
+                  ),
                 ),
-                isExpanded: true,
-                hint: const Text(
-                  '메뉴',
-                  style: TextStyle(fontSize: 14),
-                ),
-                icon: const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-                buttonHeight: 45,
-                buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                items: map
-                    .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 13,
-                            ),
-                          ),
-                        ))
-                    .toList(),
-                validator: (value) {
-                  if (value == null) {
-                    return '지역을 골라주세요.';
-                  }
-                },
-                onChanged: (value) {
-                  if (value == "글쓰기") {
-                    Get.to(const WritingPage());
-                  } else if (value == "Racquet String") {
-                    Get.to(const TablePage());
-                  }
-                  //Do something when changing the item if you want.
-                },
-                onSaved: (value) {
-                  selectedValue = value.toString();
-                },
-              ),
-            ),
+              )
+
+
+            ],
           ),
         ],
       );
@@ -217,9 +185,10 @@ class _MainPageState extends State<MainPage> {
                       },
                       child: _isLoading
                           ? Text(
-                              'Boston Sports Second Hand Market',
+                              'Boston Sports Secondhands Market',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 30,
+                                fontFamily: 'NanumSquareEB'
                               ),
                             )
                           : CircularProgressIndicator(),
@@ -237,6 +206,40 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               SizedBox(height: 200),
+              Container(
+                width: 1400,
+                child: Row(
+                  children: [
+                    Spacer(),
+                    InkWell(
+                      onTap: (){
+                        Get.to(const WritingPage() );
+                      },
+                      child: Container(
+                        width: 130,
+                        padding: EdgeInsets.all(5.0),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1.0, color: Colors.grey),
+                            borderRadius: BorderRadius.circular(5.0)
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.edit, color: Colors.black87),
+                            Text('Post Item', style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 16,
+                              fontFamily: 'NanumSquareEB',
+                            ),)
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10.0,)
+                  ],
+                ),
+              ),
+              SizedBox(height: 5.0,),
               Expanded(
                 flex: 9,
                 child: MediaQuery.of(context).size.width < 1350
@@ -254,7 +257,7 @@ class _MainPageState extends State<MainPage> {
                     : _isLoading
                         ? Container(
                             padding: EdgeInsets.symmetric(vertical: 30.0),
-                            color: Color(0xFFf0f0f0),
+                            color: Color(0xFFE2E6EB),
                             width: 1400.0,
                             child: GridView.builder(
                                 gridDelegate:
@@ -318,7 +321,7 @@ class _MainPageState extends State<MainPage> {
                                           ),
                                           SizedBox(height: 3),
                                           Text(
-                                            '${item[index].item_price} 원',
+                                            '${item[index].item_price} USD',
                                             textAlign: TextAlign.center,
                                             softWrap: false,
                                             overflow: TextOverflow.ellipsis,
@@ -338,6 +341,22 @@ class _MainPageState extends State<MainPage> {
                             child: CircularProgressIndicator(),
                           ),
               ),
+              SizedBox(height: 30.0,),
+              Container(
+                width: 1400,
+                child: Row(
+                  children: [
+                    Spacer(),
+                    TextButton(
+                        onPressed: (){Get.to(MePage());},
+                        child: Text('About Us', style: TextStyle(fontSize: 16,
+                            color: Colors.black,
+                            fontFamily: 'NanumSquareB'),)
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 30.0,),
             ],
           ),
         ),
@@ -366,12 +385,10 @@ class _MainPageState extends State<MainPage> {
                         color: Colors.grey,
                       ),
                     )
-                  : Image.asset(
-                      "assets/img1.png",
-                      width: 150,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ), // Image.network("https://ahsjung.cafe24.com/item_img/${item[index].item_img1}", width: 150, height: 150),
+                  : Image.network(
+                  "https://ahsjung.cafe24.com/item_img/${item[index].item_img1}",
+                  width: 150,
+                  height: 150), // Image.network("https://ahsjung.cafe24.com/item_img/${item[index].item_img1}", width: 150, height: 150),
               footer: GridTileBar(
                 backgroundColor: Colors.white,
                 title: Container(
@@ -411,7 +428,7 @@ class _MainPageState extends State<MainPage> {
                     )),
                 subtitle: Center(
                   child: Text(
-                    '${item[index].item_price} 원',
+                    '${item[index].item_price} USD',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 15,
