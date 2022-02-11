@@ -140,26 +140,7 @@ class _WritingPageState extends State<WritingPage> {
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width < 920) {
-      top = Container(
-        margin: EdgeInsets.only(bottom: 20.0),
-        child: Row(
-          children: [
-            Builder(
-              builder: (context) => IconButton(
-                icon: Icon(
-                  Icons.menu,
-                  size: 45,
-                  color: Colors.white,
-                ), // 햄버거버튼 아이콘 생성
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                  print('menu button is clicked');
-                },
-              ),
-            ),
-          ],
-        ),
-      );
+      top = Container();
     } else {
       top = Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -268,9 +249,9 @@ class _WritingPageState extends State<WritingPage> {
                       Get.to(MainPage());
                     },
                     child: Text(
-                      'Boston Sports Secondhands Market',
+                      'Boston Sports Second Hand',
                       style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 27,
                           fontFamily: 'NanumSquareEB'
                       ),
                     )
@@ -287,6 +268,7 @@ class _WritingPageState extends State<WritingPage> {
                 ],
               ),
             ),
+            MediaQuery.of(context).size.width > 1200 ?
             Expanded(
               child: SingleChildScrollView(
                 child: Container(
@@ -756,7 +738,436 @@ class _WritingPageState extends State<WritingPage> {
                   ),
                 ),
               ),
-            ),
+            )
+                :
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  width: 500.0,
+                  padding: EdgeInsets.only(
+                    left: 10.0,
+                    right: 10.0,
+                    top: 200,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: Get.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Post Item',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'NanumSquareB',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 70),
+                      TextField(
+                        maxLength: 30,
+                        controller: itemController,
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Please enter product name",
+                            hintStyle: TextStyle(
+                              fontSize: 12,
+                            ),
+                            fillColor: Color(0xffe8e8e8),
+                            filled: true,
+                            contentPadding:
+                            EdgeInsets.symmetric(horizontal: 8.0)),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+
+                      DropdownButtonFormField<String>(
+                        value: _selectedValue,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedValue = newValue!;
+                          });
+                          print(_selectedValue);
+                        },
+                        items: <String>[
+                          'Categories',
+                          'Bikes & Cycling',
+                          'Camping',
+                          'Fitness',
+                          'Winter Sports',
+                          'Racket Sports ',
+                          'Golf',
+                          'Water Sports',
+                          'Running',
+                          'Fishing',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              '$value',
+                              style: TextStyle(
+                                  fontSize: 12.0, color: Colors.grey),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: TextField(
+                                textAlignVertical: TextAlignVertical.center,
+                                controller: priceController,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                ),
+                                decoration: InputDecoration(
+                                    prefixIcon:
+                                    Icon(CupertinoIcons.money_dollar),
+                                    border: InputBorder.none,
+                                    hintText: "Price",
+                                    hintStyle: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                    fillColor: Color(0xffe8e8e8),
+                                    filled: true,
+                                    contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 8.0)),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: TextField(
+                                textAlignVertical: TextAlignVertical.center,
+                                controller: addressController,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                ),
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(CupertinoIcons.home),
+                                    border: InputBorder.none,
+                                    hintText: "Location",
+                                    hintStyle: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                    fillColor: Color(0xffe8e8e8),
+                                    filled: true,
+                                    contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 8.0)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      Container(
+                        padding: EdgeInsets.only(left: 15, bottom: 10),
+                        width: Get.width,
+                        height: 400,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFF9F9F9),
+                          border: Border.all(
+                            width: 1.0,
+                            color: Color(0xFFcccccc),
+                          ),
+                        ),
+                        child: TextField(
+                          controller: contentController,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          onChanged: (text) {},
+                          decoration: InputDecoration(
+                            hintText: 'Please enter details',
+                            hintStyle: TextStyle(
+                              fontSize: 13,
+                            ),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      Text(
+                        'Images',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'NanumSquareR',
+                            color: Colors.black87),
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        width: Get.width,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 15),
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFF9F9F9),
+                                  border: Border.all(
+                                    width: 1.0,
+                                    color: Color(0xFFcccccc),
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                alignment: Alignment.centerLeft,
+                                child: Text(imageName1),
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    img_no = '1';
+                                  });
+                                  getImageGallery();
+                                },
+                                child: Container(
+                                  width: 100,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color(0xFFD9D9D9),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Upload',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      SizedBox(
+                        width: Get.width,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 15),
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFF9F9F9),
+                                  border: Border.all(
+                                    width: 1.0,
+                                    color: Color(0xFFcccccc),
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                alignment: Alignment.centerLeft,
+                                child: Text(imageName2),
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    img_no = '2';
+                                  });
+                                  getImageGallery();
+                                },
+                                child: Container(
+                                  width: 100,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color(0xFFD9D9D9),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Upload',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        width: Get.width,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 15),
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFF9F9F9),
+                                  border: Border.all(
+                                    width: 1.0,
+                                    color: Color(0xFFcccccc),
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                alignment: Alignment.centerLeft,
+                                child: Text(imageName3),
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    img_no = '3';
+                                  });
+                                  getImageGallery();
+                                },
+                                child: Container(
+                                  width: 100,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color(0xFFD9D9D9),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Upload',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 50),
+                      Container(
+                        child: TextField(
+                          textAlignVertical: TextAlignVertical.center,
+                          controller: passwordController,
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.vpn_key),
+                              border: InputBorder.none,
+                              hintText: "Passwords",
+                              hintStyle: TextStyle(
+                                fontSize: 12,
+                              ),
+                              fillColor: Color(0xffe8e8e8),
+                              filled: true,
+                              contentPadding:
+                              EdgeInsets.symmetric(horizontal: 8.0)),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: SizedBox(
+                              width: Get.width,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Get.back();
+                                    },
+                                    child: Container(
+                                      width: 90,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'Cancel',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      if (itemController.text != '' &&
+                                          priceController.text != '' &&
+                                          addressController.text != '' &&
+                                          contentController.text != '' &&
+                                          _selectedValue != 'Categories' &&
+                                          passwordController.text != '') {
+                                        InsertItem();
+                                      } else {
+                                        Get.snackbar(
+                                            'Fail', 'Empty!');
+                                      }
+                                    },
+                                    child: Container(
+                                      width: 90,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Color(0xFF025595),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'Done',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 100.0,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       )),

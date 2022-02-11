@@ -24,9 +24,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
   List<Item> item = [];
   String selectedValue = "";
   bool _isLoading = false;
+
+  TextEditingController searchController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -53,27 +56,43 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+
+  searchList(){
+    Item_Data.searchItem(searchController.text).then((value){
+      setState(() {
+        item = value;
+      });
+      if (value.isNotEmpty) {
+        setState(() {
+          _isLoading = true;
+        });
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width < 920) {
       top = Container(
-        margin: EdgeInsets.only(bottom: 20.0),
-        child: Row(
-          children: [
-            Builder(
-              builder: (context) => IconButton(
-                icon: Icon(
-                  Icons.menu,
-                  size: 45,
-                  color: Colors.white,
-                ), // 햄버거버튼 아이콘 생성
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                  print('menu button is clicked');
-                },
-              ),
+        margin: EdgeInsets.only(bottom: 8.0),
+        child: Center(
+          child: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(
+                Icons.menu,
+                size: 35,
+                color: Colors.black,
+              ), // 햄버거버튼 아이콘 생성
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+                print('menu button is clicked');
+              },
             ),
-          ],
+          ),
         ),
       );
     } else {
@@ -98,6 +117,7 @@ class _MainPageState extends State<MainPage> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: TextField(
+                  controller: searchController,
                   keyboardType: TextInputType.text,
                   onChanged: (text) {},
                   decoration: InputDecoration(
@@ -111,7 +131,9 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  searchList();
+                },
                 child: Container(
                   width: 85,
                   height: 43,
@@ -163,201 +185,280 @@ class _MainPageState extends State<MainPage> {
     }
 
     return Scaffold(
+      key: formKey,
       body: SafeArea(
-        child: Container(
-          color: Colors.white,
-          padding: EdgeInsets.only(top: 20),
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width / 30,
-                    right: MediaQuery.of(context).size.width / 30),
-                color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        child: InkWell(
-                      onTap: () {
-                        Get.to(MainPage());
-                      },
-                      child: _isLoading
-                          ? Text(
-                              'Boston Sports Secondhands Market',
+          child: Container(
+            color: Colors.white,
+            padding: EdgeInsets.only(top: 20),
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width / 30,
+                      right: MediaQuery.of(context).size.width / 30),
+                  color: Colors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Get.to(MainPage());
+                            },
+                            child: Text(
+                              'Boston Sports Second Hand',
                               style: TextStyle(
-                                fontSize: 30,
-                                fontFamily: 'NanumSquareEB'
+                                  fontSize: 27,
+                                  fontFamily: 'NanumSquareEB'
                               ),
                             )
-                          : CircularProgressIndicator(),
-                    )),
-                    Expanded(
-                      flex: 0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          top,
-                        ],
+                          )),
+                      Expanded(
+                        flex: 0,
+                        child: top,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 200),
-              Container(
-                width: 1400,
-                child: Row(
-                  children: [
-                    Spacer(),
-                    InkWell(
-                      onTap: (){
-                        Get.to(const WritingPage() );
-                      },
-                      child: Container(
-                        width: 130,
-                        padding: EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1.0, color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5.0)
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.edit, color: Colors.black87),
-                            Text('Post Item', style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 16,
-                              fontFamily: 'NanumSquareEB',
-                            ),)
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10.0,)
-                  ],
-                ),
-              ),
-              SizedBox(height: 5.0,),
-              Expanded(
-                flex: 9,
-                child: MediaQuery.of(context).size.width < 1350
-                    ? _isLoading
-                        ? GridView.extent(
-                            primary: false,
-                            maxCrossAxisExtent: 300.0,
-                            // crossAxisSpacing: 10.0,
-                            // mainAxisSpacing: 10.0,
-                            children: _buildGridTileList(item.length),
-                          )
-                        : Center(
-                            child: CircularProgressIndicator(),
-                          )
-                    : _isLoading
-                        ? Container(
-                            padding: EdgeInsets.symmetric(vertical: 30.0),
-                            color: Color(0xFFE2E6EB),
-                            width: 1400.0,
-                            child: GridView.builder(
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 5,
-                                ),
-                                itemCount: item.length,
-                                itemBuilder: (_, int index) {
-                                  return Align(
-                                    alignment: Alignment.center,
-                                    child: InkWell(
-                                      onTap: () {
-                                        Get.to(SubPage(),
-                                            arguments: item[index].item_id);
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          item[index].item_img1 == ''
-                                              ? Container(
-                                                  width: 200,
-                                                  height: 200,
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          width: 0.3,
-                                                          color: Colors.grey),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0)),
-                                                  child: Icon(
-                                                    CupertinoIcons.camera_fill,
-                                                    color: Colors.grey,
-                                                  ),
-                                                )
-                                              : Image.network(
-                                                  "https://ahsjung.cafe24.com/item_img/${item[index].item_img1}",
-                                                  width: 200,
-                                                  height: 200),
-                                          SizedBox(height: 5),
-                                          Text(
-                                            '${item[index].item_category}',
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                color: Colors.black54,
-                                                fontFamily: 'NanumSquareR'),
-                                          ),
-                                          SizedBox(height: 3),
-                                          Text(
-                                            '${item[index].item_name}',
-                                            textAlign: TextAlign.center,
-                                            softWrap: false,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.black,
-                                                fontFamily: 'NanumSquareB'),
-                                          ),
-                                          SizedBox(height: 3),
-                                          Text(
-                                            '${item[index].item_price} USD',
-                                            textAlign: TextAlign.center,
-                                            softWrap: false,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.black,
-                                                fontFamily: 'NanumSquareB'),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          )
-                        : Center(
-                            child: CircularProgressIndicator(),
+                SizedBox(height: 200),
+                Container(
+                  width: 1400,
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      InkWell(
+                        onTap: (){
+                          Get.to(const WritingPage() );
+                        },
+                        child: Container(
+                          width: 130,
+                          padding: EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1.0, color: Colors.grey),
+                              borderRadius: BorderRadius.circular(5.0)
                           ),
-              ),
-              SizedBox(height: 30.0,),
-              Container(
-                width: 1400,
-                child: Row(
-                  children: [
-                    Spacer(),
-                    TextButton(
-                        onPressed: (){Get.to(MePage());},
-                        child: Text('About Us', style: TextStyle(fontSize: 16,
-                            color: Colors.black,
-                            fontFamily: 'NanumSquareB'),)
-                    )
-                  ],
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.edit, color: Colors.black87),
+                              Text('Post Item', style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 16,
+                                fontFamily: 'NanumSquareEB',
+                              ),)
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10.0,)
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 30.0,),
-            ],
+                SizedBox(height: 5.0,),
+                Expanded(
+                  flex: 10,
+                  child: MediaQuery.of(context).size.width < 1350
+                      ? _isLoading
+                      ?
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 20.0),
+                    color: Color(0xFFE2E6EB),
+                    child: GridView.extent(
+                      primary: false,
+                      maxCrossAxisExtent: 300.0,
+                      // crossAxisSpacing: 10.0,
+                      // mainAxisSpacing: 10.0,
+                      children: _buildGridTileList(item.length),
+                    ),
+                  ) : Center(
+                    child: Text("상품이 없습니다"),
+                  )
+                      : _isLoading
+                      ? Container(
+                    padding: EdgeInsets.symmetric(vertical: 30.0),
+                    color: Color(0xFFE2E6EB),
+                    width: 1400.0,
+                    child: GridView.builder(
+                        gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 5,
+                        ),
+                        itemCount: item.length,
+                        itemBuilder: (_, int index) {
+                          return Align(
+                            alignment: Alignment.center,
+                            child: InkWell(
+                              onTap: () {
+                                Get.to(SubPage(),
+                                    arguments: item[index].item_id);
+                              },
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.center,
+                                children: [
+                                  item[index].item_img1 == ''
+                                      ? Container(
+                                    width: 200,
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 0.3,
+                                            color: Colors.grey),
+                                        borderRadius:
+                                        BorderRadius.circular(
+                                            10.0)),
+                                    child: Icon(
+                                      CupertinoIcons.camera_fill,
+                                      color: Colors.grey,
+                                    ),
+                                  )
+                                      : Image.network(
+                                      "https://ahsjung.cafe24.com/item_img/${item[index].item_img1}",
+                                      width: 200,
+                                      height: 200),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    '${item[index].item_category}',
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        color: Colors.black54,
+                                        fontFamily: 'NanumSquareR'),
+                                  ),
+                                  SizedBox(height: 3),
+                                  Text(
+                                    '${item[index].item_name}',
+                                    textAlign: TextAlign.center,
+                                    softWrap: false,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontFamily: 'NanumSquareB'),
+                                  ),
+                                  SizedBox(height: 3),
+                                  Text(
+                                    '${item[index].item_price} USD',
+                                    textAlign: TextAlign.center,
+                                    softWrap: false,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontFamily: 'NanumSquareB'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                  )
+                      : Center(
+                    child: Text('상품이 없습니다'),
+                  ),
+                ),
+
+                SizedBox(height: 30.0,),
+                Container(
+                  width: 1400,
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      TextButton(
+                          onPressed: (){Get.to(MePage());},
+                          child: Text('About Us', style: TextStyle(fontSize: 16,
+                              color: Colors.black,
+                              fontFamily: 'NanumSquareB'),)
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(height: 30.0,),
+              ],
+            ),
+          ),
+        ),
+
+      endDrawer: new Drawer(
+        child: Drawer(
+          child: Container(
+            child: ListView(
+              children: <Widget>[
+                ListTile(
+                  tileColor: Color(0xFF0d3949),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.pop(
+                            context,
+                            MaterialPageRoute(builder: (context) => MainPage()),
+                          );
+                          print('success');
+                        },
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  child: Card(
+                      child: InkWell(
+                        onTap: () {
+                          Get.offAll(MainPage());
+                        },
+                        child: ListTile(
+                          title: Text(
+                            'Main',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
+                InkWell(
+                  child: Card(
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(TablePage());
+                        },
+                        child: ListTile(
+                          title: Text(
+                            'Restring Service',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.to(MePage());
+                    print('success');
+                  },
+                  child: Card(
+                      child: ListTile(
+                        title: Text(
+                          'About Us',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )),
+                ),
+              ],
+            ),
           ),
         ),
       ),

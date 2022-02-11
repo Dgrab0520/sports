@@ -8,6 +8,7 @@ class Item_Data {
   static const ITEM_LIST_ACTION = "ITEM_LIST";
   static const ITEM_SELECT_ACTION = "ITEM_SELECT";
   static const DELETE_ITEM_ACTION = "DELETE_ITEM";
+  static const SEARCH_ITEM_ACTION = "SEARCH_ITEM";
 
   static Future<List<Item>> getList() async {
     try {
@@ -42,6 +43,24 @@ class Item_Data {
       }
     } catch (e) {
       print(e);
+      return [];
+    }
+  }
+
+  static Future<List<Item>> searchItem(String item_name) async {
+    try{
+      var map = Map<String, dynamic>();
+      map['action'] = SEARCH_ITEM_ACTION;
+      map['item_name'] = item_name;
+      final response = await http.post(Uri.parse(ROOT), body: map);
+      print("Item Search Response : ${response.body}");
+      if(response.statusCode == 200){
+        List<Item> list = parseResponse(response.body);
+        return list;
+      }else{
+        return [];
+      }
+    }catch(e){
       return [];
     }
   }

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sports/datas/item_data.dart';
+import 'package:sports/me_page.dart';
 import 'package:sports/models/item_model.dart';
 import 'package:sports/table_page.dart';
 import 'package:sports/writting.dart';
@@ -75,18 +76,20 @@ class _SubPageState extends State<SubPage> {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width < 920) {
       top = Container(
-        margin: EdgeInsets.only(bottom: 20.0),
-        child: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(
-              Icons.menu,
-              size: 45,
-              color: Colors.white,
-            ), // 햄버거버튼 아이콘 생성
-            onPressed: () {
-              Scaffold.of(context).openEndDrawer();
-              print('menu button is clicked');
-            },
+        margin: EdgeInsets.only(bottom: 8.0),
+        child: Center(
+          child: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(
+                Icons.menu,
+                size: 35,
+                color: Colors.black,
+              ), // 햄버거버튼 아이콘 생성
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+                print('menu button is clicked');
+              },
+            ),
           ),
         ),
       );
@@ -178,6 +181,7 @@ class _SubPageState extends State<SubPage> {
 
     //print(_controller.offset);
     return Scaffold(
+      key: formKey,
       body: SafeArea(
           child: Container(
         color: Colors.white,
@@ -198,9 +202,9 @@ class _SubPageState extends State<SubPage> {
                       Get.to(MainPage());
                     },
                     child: Text(
-                      'Boston Sports Secondhands Market',
+                      'Boston Sports Second Hand',
                       style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 27,
                           fontFamily: 'NanumSquareEB'
                       ),
                     )
@@ -721,6 +725,85 @@ class _SubPageState extends State<SubPage> {
           ],
         ),
       )),
+      endDrawer: new Drawer(
+        child: Drawer(
+          child: Container(
+            child: ListView(
+              children: <Widget>[
+                ListTile(
+                  tileColor: Color(0xFF0d3949),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.pop(
+                            context,
+                            MaterialPageRoute(builder: (context) => MainPage()),
+                          );
+                          print('success');
+                        },
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  child: Card(
+                      child: InkWell(
+                        onTap: () {
+                          Get.offAll(MainPage());
+                        },
+                        child: ListTile(
+                          title: Text(
+                            'Main',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
+                InkWell(
+                  child: Card(
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(TablePage());
+                        },
+                        child: ListTile(
+                          title: Text(
+                            'Restring Service',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.to(MePage());
+                    print('success');
+                  },
+                  child: Card(
+                      child: ListTile(
+                        title: Text(
+                          'About Us',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

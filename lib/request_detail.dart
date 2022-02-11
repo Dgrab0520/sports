@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:selectable/selectable.dart';
 import 'package:sports/datas/racquet_data.dart';
 import 'package:sports/main_page.dart';
+import 'package:sports/me_page.dart';
 import 'package:sports/models/recquet_model.dart';
 import 'package:sports/table_page.dart';
 import 'package:sports/writting.dart';
@@ -68,23 +69,21 @@ class _DetailPage_State extends State<DetailPage> {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width < 920) {
       top = Container(
-        margin: EdgeInsets.only(bottom: 20.0),
-        child: Row(
-          children: [
-            Builder(
-              builder: (context) => IconButton(
-                icon: Icon(
-                  Icons.menu,
-                  size: 45,
-                  color: Colors.white,
-                ), // 햄버거버튼 아이콘 생성
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                  print('menu button is clicked');
-                },
-              ),
+        margin: EdgeInsets.only(bottom: 8.0),
+        child: Center(
+          child: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(
+                Icons.menu,
+                size: 35,
+                color: Colors.black,
+              ), // 햄버거버튼 아이콘 생성
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+                print('menu button is clicked');
+              },
             ),
-          ],
+          ),
         ),
       );
     } else {
@@ -196,9 +195,9 @@ class _DetailPage_State extends State<DetailPage> {
                       Get.to(MainPage());
                     },
                     child: Text(
-                      'Boston Sports Secondhands Market',
+                      'Boston Sports Second Hand',
                       style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 27,
                           fontFamily: 'NanumSquareEB'
                       ),
                     )
@@ -218,7 +217,8 @@ class _DetailPage_State extends State<DetailPage> {
             Expanded(
               flex: 9,
               child: SingleChildScrollView(
-                child: Container(
+                child: MediaQuery.of(context).size.width > 1000 ?
+                Container(
                   width: 1300,
                   padding: EdgeInsets.only(
                     left: 300,
@@ -459,12 +459,334 @@ class _DetailPage_State extends State<DetailPage> {
                       )
                     ],
                   ),
-                ),
+                )
+                    :
+                Container(
+                  width: 500,
+                  padding: EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    top: 200,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: Get.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Rqcquet String Request',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'NanumSquareB',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 40),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        color: Color(0xFFe6e6e6),
+                        width: Get.width,
+                        height: 40.0,
+                        child: _isLoading
+                            ? Align(
+                          alignment: Alignment.centerLeft,
+                          child:
+                          Text('Title : ${request[0].request_title}'),
+                        )
+                            : Container(),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                color: Color(0xFFe6e6e6),
+                                height: 40.0,
+                                width: Get.width,
+                                child: _isLoading
+                                    ? Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                      'Phone : ${request[0].request_phone}'),
+                                )
+                                    : Container(),
+                              )),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Expanded(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                color: Color(0xFFe6e6e6),
+                                height: 40.0,
+                                width: Get.width,
+                                child: _isLoading
+                                    ? Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                        'Count : ${request[0].request_count}'))
+                                    : Container(),
+                              )),
+                        ],
+                      ),
+                      SizedBox(height: 25),
+                      Text(
+                        'Detail Information',
+                        style: TextStyle(
+                            color: Colors.deepOrange,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 8),
+                      Container(
+                        padding:
+                        EdgeInsets.only(left: 15, bottom: 10, top: 10.0),
+                        width: Get.width,
+                        height: 400,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFF9F9F9),
+                          border: Border.all(
+                            width: 1.0,
+                            color: Color(0xFFcccccc),
+                          ),
+                        ),
+                        child: _isLoading
+                            ? Selectable(
+                            showSelection: true,
+                            selectWordOnDoubleTap: true,
+                            child: Text('${request[0].request_contents}'))
+                            : Container(),
+                      ),
+                      SizedBox(
+                        height: 100.0,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                          onTap: () {
+                            Get.defaultDialog(
+                                title: "Delete Request",
+                                content: Container(
+                                  width: 500,
+                                  child: Column(
+                                    children: [
+                                      Text('요청서를 삭제하시겠습니까?'),
+                                      SizedBox(
+                                        height: 30.0,
+                                      ),
+                                      SizedBox(
+                                        width: 400.0,
+                                        child: TextField(
+                                          textAlignVertical:
+                                          TextAlignVertical.center,
+                                          controller: passwordController,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                          ),
+                                          decoration: InputDecoration(
+                                              prefixIcon: Icon(Icons.vpn_key),
+                                              border: InputBorder.none,
+                                              hintText: "비밀번호를 입력해주세요",
+                                              hintStyle: TextStyle(
+                                                fontSize: 12,
+                                              ),
+                                              fillColor: Color(0xffe8e8e8),
+                                              filled: true,
+                                              contentPadding:
+                                              EdgeInsets.symmetric(
+                                                  horizontal: 8.0)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 20.0,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(),
+                                          ),
+                                          Expanded(
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Get.back();
+                                                },
+                                                child: Container(
+                                                  width: 100.0,
+                                                  height: 40.0,
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xffe6e6e6),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      'Cancel',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                          FontWeight.w600,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )),
+                                          SizedBox(
+                                            width: 10.0,
+                                          ),
+                                          Expanded(
+                                            child: InkWell(
+                                              onTap: () {
+                                                if (passwordController.text ==
+                                                    request[0]
+                                                        .request_password) {
+                                                  deleterRequest();
+                                                } else {
+                                                  Get.snackbar("삭제실패",
+                                                      "비밀번호가 일치하지 않습니다");
+                                                  Get.back();
+                                                }
+                                              },
+                                              child: Container(
+                                                width: 100.0,
+                                                height: 40.0,
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xffd48787),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    'Delete',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                        FontWeight.w600,
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ));
+                          },
+                          child: Container(
+                            width: 100.0,
+                            height: 40.0,
+                            decoration: BoxDecoration(
+                              color: Color(0xffd48787),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Delete',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 100.0,
+                      )
+                    ],
+                  ),
+                )
               ),
             ),
           ],
         ),
       )),
+      endDrawer: new Drawer(
+        child: Drawer(
+          child: Container(
+            child: ListView(
+              children: <Widget>[
+                ListTile(
+                  tileColor: Color(0xFF0d3949),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.pop(
+                            context,
+                            MaterialPageRoute(builder: (context) => MainPage()),
+                          );
+                          print('success');
+                        },
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  child: Card(
+                      child: InkWell(
+                        onTap: () {
+                          Get.offAll(MainPage());
+                        },
+                        child: ListTile(
+                          title: Text(
+                            'Main',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
+                InkWell(
+                  child: Card(
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(TablePage());
+                        },
+                        child: ListTile(
+                          title: Text(
+                            'Restring Service',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.to(MePage());
+                    print('success');
+                  },
+                  child: Card(
+                      child: ListTile(
+                        title: Text(
+                          'About Us',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

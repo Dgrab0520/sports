@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       initialRoute: "/",
-      title: 'Flutter Demo',
+      title: 'Boston Sports Second Hand',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
